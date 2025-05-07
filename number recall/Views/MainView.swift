@@ -10,7 +10,6 @@ import SwiftUI
 struct MainView: View {
     var body: some View {
         ZStack {
-            // พื้นหลังสีเหลือง
             Color(red: 255/255, green: 218/255, blue: 107/255)
                 .edgesIgnoringSafeArea(.all)
             
@@ -34,7 +33,9 @@ struct MainView: View {
                 Spacer()
                 
                 HStack(spacing: 30) {
-                    Image(systemName: "gearshape.fill").iconStyle()
+                    NavigationLink(destination: SettingView()) {
+                        Image(systemName: "gearshape.fill").iconStyle()
+                    }
                     Image(systemName: "flag.pattern.checkered.2.crossed").iconStyle()
                     Image(systemName: "person.crop.circle.fill").iconStyle()
                     

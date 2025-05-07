@@ -8,10 +8,13 @@
 import SwiftUI
 
 @main
-struct number_recallApp: App {
+struct NumberRecallApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                MainView()
+            }
         }
     }
 }
+

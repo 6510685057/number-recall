@@ -18,20 +18,18 @@ struct SettingView: View {
 
             VStack(spacing: 25) {
                 HStack {
-                                    Button(action: {
-                                    
-                                    }) {
-                                        Image(systemName: "house.fill")
-                                            .foregroundColor(.black)
-                                            .font(.title2)
-                                            .padding(10)
-                                            .background(Color.white.opacity(0.4))
-                                            .clipShape(Circle())
-                                    }
-                                    Spacer()
-                                }
-                                .padding(.top, 60)
-                                .padding(.horizontal, 30)
+                    NavigationLink(destination: MainView()) {
+                        Image(systemName: "house.fill")
+                            .foregroundColor(.black)
+                            .font(.title2)
+                            .padding(10)
+                            .background(Color.white.opacity(0.4))
+                            .clipShape(Circle())
+                    }
+                    Spacer()
+                    }
+                    .padding(.top, 60)
+                    .padding(.horizontal, 30)
                 HStack {
                     Spacer()
                     Text("SETTING")
@@ -92,6 +90,11 @@ struct LanguageOption: View {
     }
 }
 
-#Preview {
-    SettingView()
+struct SettingView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+            SettingView()
+        }
+    }
 }
+
