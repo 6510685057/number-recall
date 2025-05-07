@@ -11,36 +11,49 @@ struct MainView: View {
     var body: some View {
         ZStack {
             // พื้นหลังสีเหลือง
-            Color.yellow
+            Color(red: 255/255, green: 218/255, blue: 107/255)
                 .edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 40) {
                 Spacer()
                 
-                // ชื่อเกม
                 Text("NUMBER RECALL")
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.black)
                 
-                // ปุ่มเริ่มเกม
+
                 Text("START GAME")
                     .font(.title2)
                     .padding()
                     .frame(width: 200)
-                    .background(Color.pink)
+                    .background(Color(red: 255/255, green: 177/255, blue: 239/255))
                     .foregroundColor(.black)
                     .cornerRadius(12)
                     .shadow(radius: 3)
                 
                 Spacer()
                 
-                // ไอคอนล่าง 3 อัน (Setting / Profile / Leaderboard)
                 HStack(spacing: 30) {
+                    Image(systemName: "gearshape.fill").iconStyle()
+                    Image(systemName: "flag.pattern.checkered.2.crossed").iconStyle()
+                    Image(systemName: "person.crop.circle.fill").iconStyle()
                     
                 }
                 .padding(.bottom, 40)
             }
         }
+    }
+}
+extension Image {
+    func iconStyle() -> some View {
+        self
+            .resizable()
+            .frame(width: 36, height: 36)
+            .foregroundColor(.black)
+            .padding(10)
+            .background(Color(red: 230/255, green: 169/255, blue: 255/255))
+            .cornerRadius(12)
+            
     }
 }
 
