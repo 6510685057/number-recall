@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileInputView: View {
+struct LoginView: View {
     @State private var name: String = ""
     @State private var age: String = ""
     @State private var selectedIconIndex: Int? = nil
@@ -152,8 +152,10 @@ struct ProfileInputView: View {
     }
 }
 
-#Preview {
-    NavigationStack {
-        ProfileInputView()
+struct LoginView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationStack {
+           LoginView()
+        }
     }
 }

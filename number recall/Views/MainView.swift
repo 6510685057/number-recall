@@ -21,14 +21,19 @@ struct MainView: View {
                     .foregroundColor(.black)
                 
 
-                Text("START GAME")
-                    .font(.title2)
-                    .padding()
-                    .frame(width: 200)
-                    .background(Color(red: 255/255, green: 177/255, blue: 239/255))
-                    .foregroundColor(.black)
-                    .cornerRadius(12)
-                    .shadow(radius: 3)
+                HStack {
+                    NavigationLink(destination: LoginView()) {
+                        Text("START GAME")
+                            .font(.title2)
+                            .padding()
+                            .frame(width: 200)
+                            .background(Color(red: 255/255, green: 177/255, blue: 239/255))
+                            .foregroundColor(.black)
+                            .cornerRadius(12)
+                            .shadow(radius: 3)
+                    }
+                    
+                }
                 
                 Spacer()
                 
