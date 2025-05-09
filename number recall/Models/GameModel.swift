@@ -8,7 +8,7 @@
 import Foundation
 
 struct GameModel {
-    var targetNumbers: [Int]       // เช่น [5, 6, 8, 1]
+    var targetNumbers: [Int]
     var currentLevel: Int
-    var timeLimit: Int             // เช่น 5 วินาที
+    var timeLimit: Int
 }

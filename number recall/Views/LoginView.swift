@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
+    @StateObject var viewModel = LoginViewModel()
     @State private var name: String = ""
     @State private var age: String = ""
     @State private var selectedIconIndex: Int? = nil
@@ -113,9 +114,8 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 40)
 
-               
                 Button(action: {
-                   
+                    viewModel.saveUser(name: name, age: age)
                 }) {
                     Text("OK")
                         .font(.title3)

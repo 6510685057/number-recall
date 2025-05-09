@@ -6,23 +6,46 @@
 //
 
 import Foundation
-import SwiftUI
-
-
+import Combine
 
 class GameViewModel: ObservableObject {
-    @Published var game = GameModel(targetNumbers: [], currentLevel: 1, timeLimit: 5)
-    @Published var timerValue: Int = 0
+    @Published var game: GameModel
+    @Published var timerValue: Int
     @Published var isCounting = false
     @Published var userInput: [Int] = []
+    @Published var maxLevel: Int
+    @Published var showCards: Bool = true
+    @Published var showSuccessScreen: Bool = false
+    @Published var showFailScreen: Bool = false
+
+
 
     var timer: Timer?
+
+    init(
+        targetNumbers: [Int] = [],
+        currentLevel: Int = 1,
+        timeLimit: Int = 5,
+        maxLevel: Int = 1,
+        forPreview: Bool = false
+    ) {
+        self.game = GameModel(targetNumbers: targetNumbers, currentLevel: currentLevel, timeLimit: timeLimit)
+        self.timerValue = timeLimit
+        self.maxLevel = maxLevel
+        self.userInput = []
+
+        // ปิดการทำงานของ Timer ใน Preview
+        if !forPreview {
+            startNewLevel()
+        }
+    }
 
     func startNewLevel() {
         game.targetNumbers = (0..<4).map { _ in Int.random(in: 0...9) }
         userInput = []
         timerValue = game.timeLimit
         isCounting = true
+        showCards = true
 
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
@@ -32,10 +55,12 @@ class GameViewModel: ObservableObject {
             } else {
                 self.timer?.invalidate()
                 self.isCounting = false
-                // ไปหน้าใส่คำตอบหรือเช็คอัตโนมัติ
+                self.showCards = false
             }
         }
     }
+
+
 
     func handleNumpadInput(_ value: String) {
         switch value {
@@ -44,6 +69,7 @@ class GameViewModel: ObservableObject {
                 userInput.removeLast()
             }
         case "✓":
+            showCards = true
             checkAnswer()
         default:
             if let number = Int(value), userInput.count < game.targetNumbers.count {
@@ -52,15 +78,20 @@ class GameViewModel: ObservableObject {
         }
     }
 
+
     func checkAnswer() {
         if userInput == game.targetNumbers {
-            print("✅ Correct!")
-            // ไปด่านต่อ หรือแสดง Passed
+            game.currentLevel += 1
+            if game.currentLevel > maxLevel {
+                maxLevel = game.currentLevel
+            }
+            showSuccessScreen = true
         } else {
-            print("❌ Incorrect!")
-            // แจ้งผิด ลองใหม่
+            showFailScreen = true
         }
     }
+
+    
 
     func stopTimer() {
         timer?.invalidate()

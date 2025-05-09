@@ -8,11 +8,40 @@
 import SwiftUI
 
 struct FailView: View {
+    var onRetry: () -> Void
+    var onHome: () -> Void
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 20) {
+            Text("SORRY, YOU LOSE")
+                .font(.title)
+                .bold()
+            
+            //เหลือ ใส่ ranking
+
+            Button(action: onRetry) {
+                Image(systemName: "arrow.trianglehead.clockwise")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.black)
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Button(action: onHome) {
+                Image(systemName: "house.fill")
+                    .resizable()
+                    .frame(width: 50, height: 50)
+                    .foregroundColor(.black)
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
     }
 }
 
 #Preview {
-    FailView()
+    FailView(
+        onRetry: { },
+        onHome: { }
+    )
 }
