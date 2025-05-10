@@ -7,41 +7,73 @@
 
 import SwiftUI
 
+//struct FailView: View {
+//    var onRetry: () -> Void
+//    var onHome: () -> Void
+//    @ObservedObject var viewModel: GameViewModel
+//    @ObservedObject var rankingViewModel: RankingViewModel
+//
+//    var body: some View {
+//        VStack {
+//            Text("SORRY, YOU LOSE")
+//                .font(.title)
+//                .bold()
+//            
+//            List(rankingViewModel.players) { player in
+//                HStack {
+//                    Text(player.name)
+//                    Spacer()
+//                    Text("Level: \(player.level)")
+//                        .foregroundColor(.gray)
+//                }
+//            }
+//            
+//            HStack {
+//                Button(action: onRetry) {
+//                    Image(systemName: "arrow.trianglehead.clockwise")
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .foregroundColor(.black)
+//                }
+//                .buttonStyle(.borderedProminent)
+//
+//                Button(action: onHome) {
+//                    Image(systemName: "house.fill")
+//                        .resizable()
+//                        .frame(width: 50, height: 50)
+//                        .foregroundColor(.black)
+//                }
+//                .buttonStyle(.borderedProminent)
+//            }
+//            .padding()
+//        }
+//        .onAppear {
+//            rankingViewModel.fetchLeaderboard()
+//        }
+//    }
+//}
 struct FailView: View {
     var onRetry: () -> Void
     var onHome: () -> Void
+    @ObservedObject var rankingViewModel: RankingViewModel // ใช้ rankingViewModel ใน FailView
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack {
             Text("SORRY, YOU LOSE")
                 .font(.title)
                 .bold()
-            
-            //เหลือ ใส่ ranking
 
-            Button(action: onRetry) {
-                Image(systemName: "arrow.trianglehead.clockwise")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.black)
+            List(rankingViewModel.players) { player in
+                HStack {
+                    Text(player.name)
+                    Spacer()
+                    Text("Level: \(player.level)")
+                        .foregroundColor(.gray)
+                }
             }
-            .buttonStyle(.borderedProminent)
-            
-            Button(action: onHome) {
-                Image(systemName: "house.fill")
-                    .resizable()
-                    .frame(width: 50, height: 50)
-                    .foregroundColor(.black)
-            }
-            .buttonStyle(.borderedProminent)
+
+            Button("Retry", action: onRetry)
+            Button("Home", action: onHome)
         }
-        .padding()
     }
-}
-
-#Preview {
-    FailView(
-        onRetry: { },
-        onHome: { }
-    )
 }

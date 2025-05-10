@@ -5,24 +5,38 @@
 //  Created by Yanatthan kongkrajang on 9/5/2568 BE.
 //
 
-import Foundation
+import Firebase
 import FirebaseFirestore
 
 class LoginViewModel: ObservableObject {
-    private let db = Firestore.firestore()
-
+    private var db = Firestore.firestore()
+    
     func saveUser(name: String, age: String) {
-        let userData: [String: Any] = [
+        let userRef = db.collection("users").document(name)
+
+        userRef.setData([
             "name": name,
             "age": age,
-            "timestamp": Date()
-        ]
-
-        db.collection("users").addDocument(data: userData) { error in
+            "level": 1
+        ]) { error in
             if let error = error {
-                print("Error adding user: \(error)")
+                print("Error writing document: \(error)")
             } else {
-                print("User saved to Firestore")
+                print("User successfully saved!")
+            }
+        }
+    }
+
+    func updateLevel(name: String, newLevel: Int) {
+        let userRef = db.collection("users").document(name)
+        
+        userRef.updateData([
+            "level": newLevel
+        ]) { error in
+            if let error = error {
+                print("Error updating level: \(error)")
+            } else {
+                print("Level successfully updated!")
             }
         }
     }
