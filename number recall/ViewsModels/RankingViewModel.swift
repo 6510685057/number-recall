@@ -31,14 +31,56 @@
 //            }
 //    }
 //}
+//import Foundation
+//import FirebaseFirestore
+
+//class RankingViewModel: ObservableObject {
+//    @Published var players: [Player] = []
+//
+//    init() {
+//        fetchLeaderboard()
+//    }
+//
+//    func fetchLeaderboard() {
+//        let db = Firestore.firestore()
+//        db.collection("users")
+//            .order(by: "level", descending: true)
+//            .getDocuments { snapshot, error in
+//                if let error = error {
+//                    print("Error fetching leaderboard: \(error)")
+//                } else {
+//                    self.players = snapshot?.documents.compactMap { document in
+//                        let data = document.data()
+//                        let name = data["name"] as? String ?? "Unknown"
+//                        let level = data["level"] as? Int ?? 1
+//                        return Player(id: document.documentID, name: name, level: level)
+//                    } ?? []
+//                }
+//            }
+//    }
+//}
+//
+//struct Player: Identifiable {
+//    var id: String
+//    var name: String
+//    var level: Int
+//}
+
 import Foundation
-import FirebaseFirestore
+import Firebase
 
 class RankingViewModel: ObservableObject {
     @Published var players: [Player] = []
 
-    init() {
-        fetchLeaderboard()
+    func updateLevel(playerName: String, newLevel: Int) {
+        let db = Firestore.firestore()
+        db.collection("users").document(playerName).updateData(["level": newLevel]) { error in
+            if let error = error {
+                print("Error updating level: \(error.localizedDescription)")
+            } else {
+                print("Level updated successfully for \(playerName)")
+            }
+        }
     }
 
     func fetchLeaderboard() {
@@ -47,7 +89,7 @@ class RankingViewModel: ObservableObject {
             .order(by: "level", descending: true)
             .getDocuments { snapshot, error in
                 if let error = error {
-                    print("Error fetching leaderboard: \(error)")
+                    print("Error fetching leaderboard: \(error.localizedDescription)")
                 } else {
                     self.players = snapshot?.documents.compactMap { document in
                         let data = document.data()
@@ -59,7 +101,6 @@ class RankingViewModel: ObservableObject {
             }
     }
 }
-
 struct Player: Identifiable {
     var id: String
     var name: String

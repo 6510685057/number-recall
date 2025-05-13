@@ -324,7 +324,8 @@ struct GameView: View {
                 onHome: {
                     viewModel.startNewLevel() // หรือกลับหน้า main
                 },
-                rankingViewModel: rankingViewModel
+                rankingViewModel: rankingViewModel,
+                viewModel: viewModel
             )
         }
         .sheet(isPresented: $viewModel.showFailScreen) {

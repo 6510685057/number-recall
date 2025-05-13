@@ -5,7 +5,7 @@
 //  Created by Yanatthan kongkrajang on 9/5/2568 BE.
 //
 
-import SwiftUI
+//import SwiftUI
 //
 //struct SuccessView: View {
 //    var onNext: () -> Void
@@ -43,17 +43,20 @@ import SwiftUI
 //        onHome: {}
 //    )
 //}
+import SwiftUI
+
 struct SuccessView: View {
     var onNext: () -> Void
     var onHome: () -> Void
-    @ObservedObject var rankingViewModel: RankingViewModel // ใช้ rankingViewModel ใน SuccessView
+    @ObservedObject var rankingViewModel: RankingViewModel
+    @ObservedObject var viewModel: GameViewModel  // เพิ่มตัวแปรนี้
 
     var body: some View {
         VStack {
             Text("YOU DID IT!")
                 .font(.largeTitle)
                 .bold()
-
+            
             List(rankingViewModel.players) { player in
                 HStack {
                     Text(player.name)
@@ -63,8 +66,15 @@ struct SuccessView: View {
                 }
             }
 
-            Button("Next", action: onNext)
+            Button("Next") {
+                rankingViewModel.updateLevel(playerName: "playerName", newLevel: viewModel.game.currentLevel) // บันทึกระดับ
+                viewModel.showSuccessScreen = false
+                viewModel.startNewLevel()
+                onNext()
+            }
+
             Button("Home", action: onHome)
         }
+        .padding()
     }
 }
