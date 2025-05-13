@@ -161,7 +161,9 @@ struct RankingRow: View {
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.black.opacity(0.3)))
         .shadow(radius: 10)
         .padding(.vertical, 5)
+        
     }
+    
 }
 
 struct RankingView_Previews: PreviewProvider {

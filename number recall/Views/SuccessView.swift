@@ -78,5 +78,6 @@ struct SuccessView: View {
             Button("Home", action: onHome)
         }
         .padding()
+        .navigationBarBackButtonHidden(true)
     }
 }

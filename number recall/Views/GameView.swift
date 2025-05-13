@@ -227,6 +227,7 @@ struct GameView: View {
     }
 
     var body: some View {
+       
         VStack(spacing: 10) {
             HStack {
                             Button(action: {
@@ -345,7 +346,8 @@ struct GameView: View {
         }
         .onAppear {
                     viewModel.loadMaxLevelFromDatabase()
-                }
+        }
+        .navigationBarBackButtonHidden(true)
     }
 }
 

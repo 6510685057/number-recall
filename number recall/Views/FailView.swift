@@ -59,5 +59,6 @@ struct FailView: View {
         .onAppear {
             rankingViewModel.fetchLeaderboard()
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
