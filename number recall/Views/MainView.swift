@@ -198,6 +198,7 @@ struct MainView: View {
                         }
                     }
                     .padding(.bottom, 40)
+                    .navigationBarBackButtonHidden(true)
                 }
             }
         }

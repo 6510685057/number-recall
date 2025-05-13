@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
     @AppStorage("language") var language: String = "ENG"
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
         ZStack {
@@ -18,7 +19,9 @@ struct SettingView: View {
 
             VStack(spacing: 25) {
                 HStack {
-                    NavigationLink(destination: MainView()) {
+                    Button(action: {
+                        dismiss()
+                    }){
                         Image(systemName: "house.fill")
                             .foregroundColor(.black)
                             .font(.title2)

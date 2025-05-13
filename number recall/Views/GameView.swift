@@ -219,6 +219,8 @@ import SwiftUI
 struct GameView: View {
     @StateObject var viewModel: GameViewModel
     @StateObject var rankingViewModel: RankingViewModel
+    @Environment(\.dismiss) var dismiss
+
 
     init(viewModel: @autoclosure @escaping () -> GameViewModel = GameViewModel(),
          rankingViewModel: @autoclosure @escaping () -> RankingViewModel = RankingViewModel()) {
@@ -231,7 +233,7 @@ struct GameView: View {
         VStack(spacing: 10) {
             HStack {
                             Button(action: {
-                                // ใส่ action ที่ต้องการ
+                                dismiss()
                             }) {
                                 Image(systemName: "house.fill")
                                     .foregroundColor(.black)
