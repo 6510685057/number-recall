@@ -41,4 +41,16 @@ class LoginViewModel: ObservableObject {
             }
         }
     }
+    func fetchUserLevel(id: String, completion: @escaping (Int?) -> Void) {
+        let userRef = db.collection("users").document(id)
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let level = document.data()?["level"] as? Int
+                completion(level)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
 }

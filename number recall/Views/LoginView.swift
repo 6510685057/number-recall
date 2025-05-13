@@ -168,12 +168,15 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject var viewModel = LoginViewModel()  // เชื่อมโยงกับ ViewModel
+    @StateObject var viewModel = LoginViewModel()// เชื่อมโยงกับ ViewModel
+    @StateObject var gameViewModel = GameViewModel()
+    
     @State private var name: String = ""
     @State private var age: String = ""
     @State private var selectedIconIndex: Int? = nil
     @State private var selectedIconColor: Color = .clear
     @State private var isActive: Bool = false  // ใช้เพื่อควบคุม NavigationLink
+    @AppStorage("userID") var userID: String = ""
 
     let icons = [
         "star.fill", "flame.fill", "dog.fill",
@@ -271,7 +274,7 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 40)
 
-                @AppStorage("userID") var userID: String = ""
+//                @AppStorage("userID") var userID: String = ""
                 
                 Button(action: {
                     userID = name
@@ -294,7 +297,20 @@ struct LoginView: View {
 
                 Spacer()
             }
+            
+            .onAppear {
+                if !userID.isEmpty {
+                    viewModel.fetchUserLevel(id: userID) { level in
+                        if let level = level {
+                            gameViewModel.maxLevel = level
+                        }
+                        isActive = true
+                    }
+                }
+            }
+
         }
+        
     }
 
     func iconButton(index: Int) -> some View {
