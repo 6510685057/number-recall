@@ -227,30 +227,32 @@ struct GameView: View {
     }
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 10) {
             HStack {
-                Button(action: {
-                    // Navigation หรือกลับหน้าหลัก
-                }) {
-                    Image(systemName: "house.fill")
-                        .foregroundColor(.black)
-                        .padding(10)
-                }
-
-                Spacer()
-
-                Text("Level \(viewModel.game.currentLevel)")
-                    .font(.headline)
-                    .foregroundColor(.black)
-
-                Spacer()
-
-                Text("Max: \(viewModel.maxLevel)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-            }
-            .padding()
-            .background(Color.yellow.opacity(0.3))
+                            Button(action: {
+                                // ใส่ action ที่ต้องการ
+                            }) {
+                                Image(systemName: "house.fill")
+                                    .foregroundColor(.black)
+                                    .padding(10)
+                            }
+                            
+                            Spacer()
+                            
+                            Text("Level \(viewModel.game.currentLevel)")
+                                .font(.headline)
+                                .foregroundColor(.black)
+                            
+                            Spacer()
+                            
+                            Text("Max: \(viewModel.maxLevel)")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .padding(.trailing, 20) // เพิ่มระยะห่างจากขอบขวา
+                        }
+                        .padding(.top, 0) // ลดพื้นที่ด้านบน
+                        .background(Color.yellow.opacity(0.3))
+                        .frame(maxHeight: .infinity, alignment: .top)
 
             Text("Time: \(viewModel.timerValue)")
                 .font(.system(size: 40, weight: .bold))
@@ -341,5 +343,14 @@ struct GameView: View {
                 rankingViewModel: rankingViewModel
             )
         }
+    }
+}
+
+// PreviewProvider
+struct GameView_Previews: PreviewProvider {
+    static var previews: some View {
+        GameView(viewModel: GameViewModel(), rankingViewModel: RankingViewModel())
+            .previewLayout(.sizeThatFits) // จัดขนาดพรีวิวให้เหมาะสม
+            .padding()  // เพิ่ม padding เพื่อให้ขอบไม่ชนกับขอบ
     }
 }
