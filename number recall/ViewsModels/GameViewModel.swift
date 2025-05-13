@@ -244,6 +244,12 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+    func restartFromLevelOne() {
+        game.currentLevel = 1
+        startNewLevel()
+    }
+
 
 
 

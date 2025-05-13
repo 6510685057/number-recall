@@ -334,7 +334,7 @@ struct GameView: View {
             FailView(
                 onRetry: {
                     viewModel.showFailScreen = false
-                    viewModel.startNewLevel()
+                    viewModel.restartFromLevelOne()
                 },
                 onHome: {
                     viewModel.startNewLevel()
