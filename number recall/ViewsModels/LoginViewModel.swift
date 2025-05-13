@@ -11,13 +11,14 @@ import FirebaseFirestore
 class LoginViewModel: ObservableObject {
     private var db = Firestore.firestore()
     
-    func saveUser(id: String, name: String, age: String) {
+    func saveUser(id: String, name: String, age: String, icon: String){
         let userRef = db.collection("users").document(id)
 
         userRef.setData([
             "name": name,
             "age": age,
-            "level": 1
+            "level": 1,
+            "icon": icon 
         ]) { error in
             if let error = error {
                 print("Error writing document: \(error)")

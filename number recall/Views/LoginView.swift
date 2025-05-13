@@ -278,7 +278,7 @@ struct LoginView: View {
                 
                 Button(action: {
                     userID = name
-                    viewModel.saveUser(id: userID, name: name, age: age)
+                    viewModel.saveUser(id: userID, name: name, age: age,icon: "icon")
                     isActive = true
                 }) {
                     Text("OK")
