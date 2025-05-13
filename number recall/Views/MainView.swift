@@ -141,8 +141,10 @@ import SwiftUI
 struct MainView: View {
     @AppStorage("userID") var userID: String = ""
     @State private var startGame = false
+    
 
     var body: some View {
+        
         NavigationStack {
             ZStack {
                 Color(red: 255/255, green: 218/255, blue: 107/255)
