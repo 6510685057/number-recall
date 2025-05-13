@@ -1,10 +1,3 @@
-//
-//  FailView.swift
-//  number recall
-//
-//  Created by Yanatthan kongkrajang on 9/5/2568 BE.
-//
-
 import SwiftUI
 
 struct FailView: View {
@@ -12,6 +5,7 @@ struct FailView: View {
     var onHome: () -> Void
     @ObservedObject var viewModel: GameViewModel
     @ObservedObject var rankingViewModel: RankingViewModel
+<<<<<<< HEAD
     @State private var isRetryActive = false  // สถานะการ navigate ไปที่หน้าเกมใหม่
     @State private var isHomeActive = false   // สถานะการ navigate กลับไปหน้า Home
 
@@ -36,6 +30,16 @@ struct FailView: View {
                 Spacer()
                 
                 // ปุ่ม Retry และ Home
+=======
+    
+    var body: some View {
+        VStack {
+            Text("SORRY, YOU LOSE")
+                .font(.title)
+                .bold()
+            
+            List(rankingViewModel.rankings) { player in
+>>>>>>> main
                 HStack {
                     Button(action: {
                         // เมื่อคลิก Retry ให้กลับไปที่ด่านที่เล่นล่าสุด
@@ -67,6 +71,7 @@ struct FailView: View {
                     }
                     .buttonStyle(PlainButtonStyle())
                 }
+<<<<<<< HEAD
                 .padding(.top, 20)
                 
                 // NavigationLink สำหรับ Retry
@@ -83,6 +88,25 @@ struct FailView: View {
                 }
                 .navigationDestination(isPresented: $isHomeActive) {
                     MainView()  // หน้าหลัก
+=======
+            }
+            
+            
+            HStack {
+                Button(action: onRetry) {
+                    Image(systemName: "arrow.trianglehead.clockwise")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.black)
+                }
+                .buttonStyle(.borderedProminent)
+                
+                Button(action: onHome) {
+                    Image(systemName: "house.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                        .foregroundColor(.black)
+>>>>>>> main
                 }
             }
             .onAppear {
@@ -127,6 +151,7 @@ struct Ranking: View {
                 .background(Color.pink.opacity(0.4))
                 .cornerRadius(10)
         }
+<<<<<<< HEAD
         .padding(.vertical, 10)
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.black.opacity(0.3)))
         .shadow(radius: 5)
@@ -151,5 +176,8 @@ struct FailView_Previews: PreviewProvider {
         }, viewModel: GameViewModel(), rankingViewModel: mockRankingViewModel)
             .previewLayout(.sizeThatFits)
             .padding()
+=======
+        .navigationBarBackButtonHidden(true)
+>>>>>>> main
     }
 }
