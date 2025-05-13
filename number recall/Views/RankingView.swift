@@ -15,71 +15,79 @@ struct RankingView: View {
     }
 
     var body: some View {
-        VStack {
-            // หัวข้อ "Leaderboard"
-            Text("Leaderboard")
-                .font(.system(size: 36, weight: .bold))
-                .foregroundColor(.white)
-                .padding(.top, 20)
-                .frame(maxWidth: .infinity)
-                .background(LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .top, endPoint: .bottom))
-                .cornerRadius(12)
+        NavigationStack { // ใช้ NavigationStack เพื่อจัดการกับการนำทาง
+            VStack {
+                // หัวข้อ "Leaderboard"
+                Text("Leaderboard")
+                    .font(.system(size: 36, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.top, 80)
+                    .frame(maxWidth: .infinity)
+                    .background(LinearGradient(gradient: Gradient(colors: [.purple, .blue]), startPoint: .top, endPoint: .bottom))
+                    .cornerRadius(12)
 
-            // รายชื่อผู้นำ
-            List(rankingViewModel.players) { player in
-                RankingRow(player: player)
+                // รายชื่อผู้นำ
+                List {
+                    // เรียงลำดับผู้เล่นตามระดับจากสูงสุดไปต่ำสุด
+                    ForEach(rankingViewModel.players.sorted(by: { $0.level > $1.level })) { player in
+                        RankingRow(player: player, rank: rankingViewModel.players.firstIndex(where: { $0.id == player.id }) ?? 0 + 1) // ส่งลำดับที่จัดเรียงให้กับ RankingRow
+                    }
+                }
+                .onAppear {
+                    // ดึงข้อมูลผู้นำเมื่อหน้าจอโหลด
+                    rankingViewModel.fetchLeaderboard()
+                }
+                .listStyle(PlainListStyle())
+                .padding(.horizontal, 20)
+                
+                Spacer()
             }
-            .onAppear {
-                // ดึงข้อมูลผู้นำเมื่อหน้าจอโหลด
-                rankingViewModel.fetchLeaderboard()
-            }
-            .listStyle(PlainListStyle())
-            .padding(.horizontal, 20)
+            .background(LinearGradient(gradient: Gradient(colors: [Color.pink, Color.orange]), startPoint: .top, endPoint: .bottom))
+            .edgesIgnoringSafeArea(.all)
+        
         }
-        .background(LinearGradient(gradient: Gradient(colors: [.blue, .purple]), startPoint: .top, endPoint: .bottom))
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
 struct RankingRow: View {
     var player: Player
+    var rank: Int  // ลำดับที่ได้จากการเรียง
 
     var body: some View {
         HStack {
             // ลำดับผู้เล่น
-            Text("#\(player.level)")
+            Text("#\(rank+1)")  // ลำดับที่คำนวณจากตัวแปร `rank`
                 .font(.title2)
                 .fontWeight(.bold)
                 .foregroundColor(.white)
-                .padding(.horizontal, 10)
-                .padding(.vertical, 5)
-                .background(Color.white.opacity(0.2))
+                .padding(10)
+                .background(Color.pink.opacity(0.4))
                 .cornerRadius(10)
-
+            
+            Spacer()
+            
             // ชื่อผู้เล่น
-            VStack(alignment: .leading) {
-                Text("\(player.name)")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundColor(.white)
-                    .lineLimit(1)
-                    .truncationMode(.tail)
-
-            }
+            Text(player.name)
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.white)
+                .lineLimit(1)
+                .truncationMode(.tail)
+            
             Spacer()
 
-            // ตำแหน่งระดับของผู้เล่น (Level) อยู่ขวาสุด
+            // ตำแหน่งระดับของผู้เล่น (Level)
             Text("Level \(player.level)")
                 .font(.subheadline)
                 .foregroundColor(.white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(Color.white.opacity(0.2))
+                .background(Color.pink.opacity(0.4))
                 .cornerRadius(10)
         }
-        .padding()
+        .padding(.vertical, 10)
         .background(RoundedRectangle(cornerRadius: 15).fill(Color.black.opacity(0.3)))
-        .shadow(radius: 10)
+        .shadow(radius: 5)
         .padding(.vertical, 5)
     }
 }

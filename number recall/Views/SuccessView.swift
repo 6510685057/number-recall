@@ -50,33 +50,84 @@ struct SuccessView: View {
     var onHome: () -> Void
     @ObservedObject var rankingViewModel: RankingViewModel
     @ObservedObject var viewModel: GameViewModel  // เพิ่มตัวแปรนี้
+    @State private var isNextActive = false  // สถานะการนำทางไปหน้า GameView
+    @State private var isHomeActive = false   // สถานะการนำทางไปหน้า MainView
 
     var body: some View {
-        VStack {
-            Text("YOU DID IT!")
-                .font(.largeTitle)
-                .bold()
-            
-            List(rankingViewModel.players) { player in
-                HStack {
-                    Text(player.name)
-                    Spacer()
-                    Text("Level: \(player.level)")
-                        .foregroundColor(.gray)
+        NavigationStack { // ใช้ NavigationStack
+            ZStack {
+                // ใช้พื้นหลังแบบ Gradient ครอบเต็มจอ
+                LinearGradient(gradient: Gradient(colors: [Color.pink, Color.purple]), startPoint: .top, endPoint: .bottom)
+                    .edgesIgnoringSafeArea(.all)  // ให้พื้นหลังครอบคลุมเต็มหน้าจอ
+
+                VStack {
+                    Text("YOU DID IT!")
+                        .font(.largeTitle)
+                        .bold()
+                        .foregroundColor(.white)
+                        .padding(.top, 30)
+                    
+                    // ปุ่ม Next และ Home
+                    HStack(spacing: 30) {
+                        // ปุ่ม Home จะอยู่ทางซ้าย
+                        Button(action: {
+                            isHomeActive = true  // เมื่อคลิกปุ่ม Home
+                        }) {
+                            Image(systemName: "house.fill")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.pink.opacity(0.7))
+                                .cornerRadius(12)
+                                .shadow(radius: 5)
+                        }
+
+                        // ปุ่ม Next จะอยู่ทางขวา
+                        Button(action: {
+                            rankingViewModel.updateLevel(userID: "userID", newLevel: viewModel.game.currentLevel)
+                            viewModel.showSuccessScreen = false
+                            viewModel.startNewLevel()
+                            isNextActive = true  // เมื่อคลิกปุ่ม Play Next
+                        }) {
+                            Text("Play Next")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.yellow.opacity(0.7))
+                                .cornerRadius(12)
+                                .shadow(radius: 5)
+                        }
+                    }
+                    .padding(.top, 40)
                 }
+                .padding()
             }
-            @AppStorage("userID") var userID: String = ""
-
-            Button("Next") {
-                rankingViewModel.updateLevel(userID: userID, newLevel: viewModel.game.currentLevel)
-                viewModel.showSuccessScreen = false
-                viewModel.startNewLevel()
-                onNext()
+            .navigationDestination(isPresented: $isHomeActive) {
+                MainView()  // หน้า MainView
             }
-
-
-            Button("Home", action: onHome)
+            .navigationDestination(isPresented: $isNextActive) {
+                GameView()  // หน้า GameView
+            }
         }
-        .padding()
+    }
+}
+
+struct SuccessView_Previews: PreviewProvider {
+    static var previews: some View {
+        // สร้าง Mock ViewModel สำหรับพรีวิว
+        let mockRankingViewModel = RankingViewModel()
+        
+        // สร้าง Mock GameViewModel
+        let mockGameViewModel = GameViewModel(targetNumbers: [], currentLevel: 1, timeLimit: 5, maxLevel: 1)
+
+        // สร้าง SuccessView และแนบ ViewModel
+        return SuccessView(onNext: {
+            print("Next tapped")
+        }, onHome: {
+            print("Home tapped")
+        }, rankingViewModel: mockRankingViewModel, viewModel: mockGameViewModel)
+            .previewLayout(.sizeThatFits) // กำหนดขนาดให้พอดีกับเนื้อหา
+            .padding() // เพิ่ม padding เพื่อให้พรีวิวดูชัดเจนขึ้น
     }
 }
