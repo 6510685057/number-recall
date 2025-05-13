@@ -57,18 +57,18 @@ struct SuccessView: View {
                 .font(.largeTitle)
                 .bold()
             
-            List(rankingViewModel.players) { player in
-                HStack {
-                    Text(player.name)
-                    Spacer()
-                    Text("Level: \(player.level)")
-                        .foregroundColor(.gray)
-                }
-            }
+//            List(rankingViewModel.players) { player in
+//                HStack {
+//                    Text(player.name)
+//                    Spacer()
+//                    Text("Level: \(player.level)")
+//                        .foregroundColor(.gray)
+//                }
+//            }
             @AppStorage("userID") var userID: String = ""
 
             Button("Next") {
-                rankingViewModel.updateLevel(userID: userID, newLevel: viewModel.game.currentLevel)
+                viewModel.updateLevelInDatabase(userID: userID, newLevel: viewModel.game.currentLevel)
                 viewModel.showSuccessScreen = false
                 viewModel.startNewLevel()
                 onNext()

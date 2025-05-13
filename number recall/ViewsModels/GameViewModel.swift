@@ -227,29 +227,68 @@ class GameViewModel: ObservableObject {
         isCounting = false
     }
 
+//    func updateLevelInDatabase(userID: String, newLevel: Int) {
+//        let userRef = Firestore.firestore().collection("users").document(userID)
+//
+//        userRef.getDocument { (document, error) in
+//            if let document = document, document.exists {
+//                userRef.updateData(["level": newLevel]) { error in
+//                    if let error = error {
+//                        print("Error updating level: \(error.localizedDescription)")
+//                    } else {
+//                        print("Level successfully updated for \(userID)")
+//                    }
+//                }
+//            } else {
+//                print("No such document in Firestore.")
+//            }
+//        }
+//    }
     func updateLevelInDatabase(userID: String, newLevel: Int) {
         let userRef = Firestore.firestore().collection("users").document(userID)
 
         userRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                userRef.updateData(["level": newLevel]) { error in
-                    if let error = error {
-                        print("Error updating level: \(error.localizedDescription)")
-                    } else {
-                        print("Level successfully updated for \(userID)")
+                let currentLevelInDB = document.data()?["level"] as? Int ?? 1
+
+                if newLevel > currentLevelInDB {
+                    userRef.updateData(["level": newLevel]) { error in
+                        if let error = error {
+                            print("Error updating level: \(error.localizedDescription)")
+                        } else {
+                            print("Level successfully updated for \(userID) to \(newLevel)")
+                        }
                     }
+                } else {
+                    print("No update needed. Current level in DB: \(currentLevelInDB), New level: \(newLevel)")
                 }
             } else {
                 print("No such document in Firestore.")
             }
         }
     }
+
     
     func restartFromLevelOne() {
         game.currentLevel = 1
         startNewLevel()
     }
+    
+    func loadMaxLevelFromDatabase() {
+            let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+            let userRef = Firestore.firestore().collection("users").document(userID)
 
+            userRef.getDocument { (document, error) in
+                if let document = document, document.exists {
+                    let level = document.data()?["level"] as? Int ?? 1
+                    DispatchQueue.main.async {
+                        self.maxLevel = level
+                    }
+                } else {
+                    print("No such user to load maxLevel.")
+                }
+            }
+        }
 
 
 

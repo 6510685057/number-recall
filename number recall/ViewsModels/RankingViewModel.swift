@@ -66,41 +66,80 @@
 //    var level: Int
 //}
 
+//import Foundation
+//import Firebase
+//
+//class RankingViewModel: ObservableObject {
+//    @Published var players: [Player] = []
+//
+//    func updateLevel(userID: String, newLevel: Int){
+//        let db = Firestore.firestore()
+//        db.collection("users").document(userID).updateData(["level": newLevel]) { error in
+//            if let error = error {
+//                print("Error updating level: \(error.localizedDescription)")
+//            } else {
+//                print("Level updated successfully for \(userID)")
+//            }
+//        }
+//    }
+//
+//    func fetchLeaderboard() {
+//        let db = Firestore.firestore()
+//        db.collection("users")
+//            .order(by: "level", descending: true)
+//            .getDocuments { snapshot, error in
+//                if let error = error {
+//                    print("Error fetching leaderboard: \(error.localizedDescription)")
+//                } else {
+//                    self.players = snapshot?.documents.compactMap { document in
+//                        let data = document.data()
+//                        let name = data["name"] as? String ?? "Unknown"
+//                        let level = data["level"] as? Int ?? 1
+//                        return Player(id: document.documentID, name: name, level: level)
+//                    } ?? []
+//                }
+//            }
+//    }
+//}
 import Foundation
 import Firebase
 
-class RankingViewModel: ObservableObject {
-    @Published var players: [Player] = []
+struct Ranking: Identifiable {
+    var id: String
+    var name: String
+    var level: Int
+}
 
-    func updateLevel(userID: String, newLevel: Int){
-        let db = Firestore.firestore()
-        db.collection("users").document(userID).updateData(["level": newLevel]) { error in
-            if let error = error {
-                print("Error updating level: \(error.localizedDescription)")
-            } else {
-                print("Level updated successfully for \(userID)")
-            }
-        }
-    }
+class RankingViewModel: ObservableObject {
+    @Published var rankings: [Ranking] = []
+
+    private var db = Firestore.firestore()
 
     func fetchLeaderboard() {
-        let db = Firestore.firestore()
-        db.collection("users")
+        db.collection("users") // 🔁 เปลี่ยนจาก "rankings" เป็น "users"
             .order(by: "level", descending: true)
-            .getDocuments { snapshot, error in
+            .getDocuments { (snapshot, error) in
                 if let error = error {
                     print("Error fetching leaderboard: \(error.localizedDescription)")
-                } else {
-                    self.players = snapshot?.documents.compactMap { document in
-                        let data = document.data()
-                        let name = data["name"] as? String ?? "Unknown"
-                        let level = data["level"] as? Int ?? 1
-                        return Player(id: document.documentID, name: name, level: level)
-                    } ?? []
+                    return
+                }
+
+                guard let documents = snapshot?.documents else {
+                    print("No leaderboard data")
+                    return
+                }
+
+                self.rankings = documents.compactMap { doc in
+                    let data = doc.data()
+                    let id = doc.documentID
+                    let name = data["name"] as? String ?? "Unknown"
+                    let level = data["level"] as? Int ?? 0
+                    return Ranking(id: id, name: name, level: level)
                 }
             }
     }
 }
+
 struct Player: Identifiable {
     var id: String
     var name: String

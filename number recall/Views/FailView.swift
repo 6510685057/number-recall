@@ -19,7 +19,15 @@ struct FailView: View {
                 .font(.title)
                 .bold()
             
-            List(rankingViewModel.players) { player in
+//            List(rankingViewModel.players) { player in
+//                HStack {
+//                    Text(player.name)
+//                    Spacer()
+//                    Text("Level: \(player.level)")
+//                        .foregroundColor(.gray)
+//                }
+//            }
+            List(rankingViewModel.rankings) { player in
                 HStack {
                     Text(player.name)
                     Spacer()
@@ -27,6 +35,7 @@ struct FailView: View {
                         .foregroundColor(.gray)
                 }
             }
+
             
             HStack {
                 Button(action: onRetry) {

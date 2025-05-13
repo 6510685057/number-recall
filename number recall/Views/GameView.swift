@@ -343,6 +343,9 @@ struct GameView: View {
                 rankingViewModel: rankingViewModel
             )
         }
+        .onAppear {
+                    viewModel.loadMaxLevelFromDatabase()
+                }
     }
 }
 
