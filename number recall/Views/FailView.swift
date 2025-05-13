@@ -1,10 +1,3 @@
-//
-//  FailView.swift
-//  number recall
-//
-//  Created by Yanatthan kongkrajang on 9/5/2568 BE.
-//
-
 import SwiftUI
 
 struct FailView: View {
@@ -12,21 +5,13 @@ struct FailView: View {
     var onHome: () -> Void
     @ObservedObject var viewModel: GameViewModel
     @ObservedObject var rankingViewModel: RankingViewModel
-
+    
     var body: some View {
         VStack {
             Text("SORRY, YOU LOSE")
                 .font(.title)
                 .bold()
             
-//            List(rankingViewModel.players) { player in
-//                HStack {
-//                    Text(player.name)
-//                    Spacer()
-//                    Text("Level: \(player.level)")
-//                        .foregroundColor(.gray)
-//                }
-//            }
             List(rankingViewModel.rankings) { player in
                 HStack {
                     Text(player.name)
@@ -35,7 +20,7 @@ struct FailView: View {
                         .foregroundColor(.gray)
                 }
             }
-
+            
             
             HStack {
                 Button(action: onRetry) {
@@ -45,7 +30,7 @@ struct FailView: View {
                         .foregroundColor(.black)
                 }
                 .buttonStyle(.borderedProminent)
-
+                
                 Button(action: onHome) {
                     Image(systemName: "house.fill")
                         .resizable()

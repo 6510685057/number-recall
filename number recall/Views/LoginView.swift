@@ -1,39 +1,39 @@
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject var viewModel = LoginViewModel()// เชื่อมโยงกับ ViewModel
+    @StateObject var viewModel = LoginViewModel()
     @StateObject var gameViewModel = GameViewModel()
     
     @State private var name: String = ""
     @State private var age: String = ""
     @State private var selectedIconIndex: Int? = nil
     @State private var selectedIconColor: Color = .clear
-    @State private var isActive: Bool = false  // ใช้เพื่อควบคุม NavigationLink
+    @State private var isActive: Bool = false
     @AppStorage("userID") var userID: String = ""
     @State private var selectedIcon: String = ""
-
-
+    
+    
     let icons = [
         "star.fill", "flame.fill", "dog.fill",
         "pawprint.fill", "teddybear.fill", "cloud.fill"
     ]
-
+    
     let iconColors: [Color] = [
         .red, .green, .blue,
         .pink, .purple, .orange
     ]
-
+    
     init() {
         let randomIndex = Int.random(in: 0..<6)
         _selectedIconIndex = State(initialValue: randomIndex)
         _selectedIconColor = State(initialValue: iconColors[randomIndex])
     }
-
+    
     var body: some View {
         ZStack {
             Color(red: 255/255, green: 218/255, blue: 104/255)
                 .edgesIgnoringSafeArea(.all)
-
+            
             VStack(spacing: 25) {
                 HStack {
                     NavigationLink(destination: MainView()) {
@@ -48,11 +48,11 @@ struct LoginView: View {
                 }
                 .padding(.top, 30)
                 .padding(.horizontal, 30)
-
+                
                 Text("NUMBER RECALL")
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.black)
-
+                
                 // การเลือกไอคอน
                 VStack(spacing: 12) {
                     HStack(spacing: 20) {
@@ -67,7 +67,7 @@ struct LoginView: View {
                     }
                 }
                 .padding(.top, 30)
-
+                
                 VStack {
                     if let index = selectedIconIndex {
                         Image(systemName: icons[index])
@@ -85,7 +85,7 @@ struct LoginView: View {
                             .frame(width: 100, height: 100)
                     }
                 }
-
+                
                 VStack(alignment: .leading, spacing: 10) {
                     Text("NAME")
                         .font(.system(size: 18))
@@ -96,7 +96,7 @@ struct LoginView: View {
                         .padding(.trailing)
                 }
                 .padding(.horizontal, 40)
-
+                
                 VStack(alignment: .leading, spacing: 10) {
                     Text("AGE")
                         .font(.system(size: 18))
@@ -108,8 +108,7 @@ struct LoginView: View {
                         .padding(.trailing)
                 }
                 .padding(.horizontal, 40)
-
-//                @AppStorage("userID") var userID: String = ""
+                
                 
                 Button(action: {
                     userID = name
@@ -125,11 +124,11 @@ struct LoginView: View {
                         .cornerRadius(10)
                         .shadow(radius: 2)
                 }
-
+                
                 NavigationLink(destination: GameView(), isActive: $isActive) {
                     EmptyView()
                 }
-
+                
                 Spacer()
             }
             
@@ -143,11 +142,11 @@ struct LoginView: View {
                     }
                 }
             }
-
+            
         }
         
     }
-
+    
     func iconButton(index: Int) -> some View {
         Image(systemName: icons[index])
             .resizable()

@@ -1,25 +1,18 @@
-//
-//  ProfileView.swift
-//  number recall
-//
-//  Created by Yanatthan kongkrajang on 14/5/2568 BE.
-//
-
 import SwiftUI
 
 struct ProfileView: View {
     @AppStorage("userID") var userID: String = ""
     @StateObject var viewModel = LoginViewModel()
     @Environment(\.presentationMode) var presentationMode
-
-
+    
+    
     @State private var name: String = ""
     @State private var selectedIcon: String = ""
-
-
+    
+    
     let icons = ["star.fill", "flame.fill", "pawprint.fill", "teddybear.fill", "dog.fill", "cloud.fill"]
     let iconColors: [Color] = [.red, .green, .blue, .pink, .purple, .orange]
-
+    
     // ฟังก์ชันหาสีตาม icon ที่เลือก
     func backgroundColor(for icon: String) -> Color {
         if let index = icons.firstIndex(of: icon) {
@@ -27,13 +20,13 @@ struct ProfileView: View {
         }
         return .gray
     }
-
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Your Profile")
                 .font(.largeTitle)
                 .padding(.top, 30)
-
+            
             // แสดง icon ผู้เล่นพร้อมพื้นหลังสี
             Image(systemName: selectedIcon)
                 .resizable()
@@ -42,15 +35,15 @@ struct ProfileView: View {
                 .padding()
                 .background(backgroundColor(for: selectedIcon))
                 .clipShape(Circle())
-
+            
             // ชื่อผู้เล่น
             TextField("Enter your name", text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
-
+            
             Text("Choose Your Icon").font(.headline)
-
-            // Grid ไอคอนให้เลือก พร้อมพื้นหลังแบบเดียวกับ LoginView
+            
+            
             LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
                 ForEach(icons, id: \.self) { icon in
                     Image(systemName: icon)
@@ -66,13 +59,13 @@ struct ProfileView: View {
                 }
             }
             .padding()
-
-            // ปุ่มบันทึก
+            
+            
             Button("Save") {
                 viewModel.updateUserProfile(id: userID, name: name, icon: selectedIcon)
                 presentationMode.wrappedValue.dismiss()
             }
-
+            
             .font(.headline)
             .padding()
             .frame(maxWidth: .infinity)
@@ -80,7 +73,7 @@ struct ProfileView: View {
             .foregroundColor(.white)
             .cornerRadius(10)
             .padding(.horizontal)
-
+            
             Spacer()
         }
         .onAppear {
