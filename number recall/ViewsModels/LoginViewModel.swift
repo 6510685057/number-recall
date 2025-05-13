@@ -18,7 +18,7 @@ class LoginViewModel: ObservableObject {
             "name": name,
             "age": age,
             "level": 1,
-            "icon": icon 
+            "icon": icon
         ]) { error in
             if let error = error {
                 print("Error writing document: \(error)")
