@@ -102,7 +102,12 @@ struct MainView: View {
                         NavigationLink(destination: SettingView()) {
                             Image(systemName: "gearshape.fill").iconStyle()
                         }
-                        Image(systemName: "flag.pattern.checkered.2.crossed").iconStyle()
+                        
+                        NavigationLink(destination: RankingView(rankingViewModel: RankingViewModel())) {
+                            Image(systemName: "flag.pattern.checkered.2.crossed").iconStyle()
+                        }
+
+
                         Image(systemName: "person.crop.circle.fill").iconStyle()
                     }
                     .padding(.bottom, 40)
