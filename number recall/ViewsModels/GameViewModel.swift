@@ -203,12 +203,17 @@ class GameViewModel: ObservableObject {
             game.currentLevel += 1
             if game.currentLevel > maxLevel {
                 maxLevel = game.currentLevel
+                let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+                updateLevelInDatabase(userID: userID, newLevel: maxLevel)
             }
+
+//            if game.currentLevel > maxLevel {
+//                maxLevel = game.currentLevel
+//            }
             showSuccessScreen = true
 
-            // ✅ ดึง userID จาก UserDefaults
-            let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
-            updateLevelInDatabase(userID: userID, newLevel: game.currentLevel)
+//            let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+//            updateLevelInDatabase(userID: userID, newLevel: game.currentLevel)
 
         } else {
             showFailScreen = true
