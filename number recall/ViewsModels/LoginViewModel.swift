@@ -52,5 +52,38 @@ class LoginViewModel: ObservableObject {
             }
         }
     }
+    
+    struct UserProfile {
+        var name: String
+        var icon: String
+    }
+
+    func fetchUserProfile(id: String, completion: @escaping (UserProfile?) -> Void) {
+        let userRef = db.collection("users").document(id)
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let name = document.data()?["name"] as? String ?? ""
+                let icon = document.data()?["icon"] as? String ?? "star.fill"
+                completion(UserProfile(name: name, icon: icon))
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
+    func updateUserProfile(id: String, name: String, icon: String) {
+        let userRef = db.collection("users").document(id)
+        userRef.updateData([
+            "name": name,
+            "icon": icon
+        ]) { error in
+            if let error = error {
+                print("Error updating profile: \(error)")
+            } else {
+                print("Profile updated successfully.")
+            }
+        }
+    }
+
 
 }

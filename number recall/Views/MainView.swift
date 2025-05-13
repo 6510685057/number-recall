@@ -108,7 +108,10 @@ struct MainView: View {
                         }
 
 
-                        Image(systemName: "person.crop.circle.fill").iconStyle()
+                        NavigationLink(destination: ProfileView()) {
+                            Image(systemName: "person.crop.circle.fill").iconStyle()
+                        }
+
                     }
                     .padding(.bottom, 40)
                 }
