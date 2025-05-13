@@ -72,13 +72,13 @@ import Firebase
 class RankingViewModel: ObservableObject {
     @Published var players: [Player] = []
 
-    func updateLevel(playerName: String, newLevel: Int) {
+    func updateLevel(userID: String, newLevel: Int){
         let db = Firestore.firestore()
-        db.collection("users").document(playerName).updateData(["level": newLevel]) { error in
+        db.collection("users").document(userID).updateData(["level": newLevel]) { error in
             if let error = error {
                 print("Error updating level: \(error.localizedDescription)")
             } else {
-                print("Level updated successfully for \(playerName)")
+                print("Level updated successfully for \(userID)")
             }
         }
     }

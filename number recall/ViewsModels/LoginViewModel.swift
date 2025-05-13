@@ -11,8 +11,8 @@ import FirebaseFirestore
 class LoginViewModel: ObservableObject {
     private var db = Firestore.firestore()
     
-    func saveUser(name: String, age: String) {
-        let userRef = db.collection("users").document(name)
+    func saveUser(id: String, name: String, age: String) {
+        let userRef = db.collection("users").document(id)
 
         userRef.setData([
             "name": name,
@@ -26,6 +26,7 @@ class LoginViewModel: ObservableObject {
             }
         }
     }
+
 
     func updateLevel(name: String, newLevel: Int) {
         let userRef = db.collection("users").document(name)

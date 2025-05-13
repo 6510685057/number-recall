@@ -271,9 +271,12 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 40)
 
+                @AppStorage("userID") var userID: String = ""
+                
                 Button(action: {
-                    viewModel.saveUser(name: name, age: age)  // บันทึกชื่อและอายุ
-                    isActive = true  // เปลี่ยนไปยังหน้าจอเกม
+                    userID = name
+                    viewModel.saveUser(id: userID, name: name, age: age)
+                    isActive = true
                 }) {
                     Text("OK")
                         .font(.title3)

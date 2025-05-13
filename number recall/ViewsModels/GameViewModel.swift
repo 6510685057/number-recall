@@ -126,6 +126,8 @@ class GameViewModel: ObservableObject {
     @Published var showCards: Bool = true
     @Published var showSuccessScreen: Bool = false
     @Published var showFailScreen: Bool = false
+  
+
 
     var timer: Timer?
 
@@ -180,7 +182,22 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+    
+   
 
+//    func checkAnswer() {
+//        if userInput == game.targetNumbers {
+//            game.currentLevel += 1
+//            if game.currentLevel > maxLevel {
+//                maxLevel = game.currentLevel
+//            }
+//            showSuccessScreen = true
+//            // Save the new level to Firestore
+//            updateLevelInDatabase(userID: "userID", newLevel: game.currentLevel) // ใส่ userID จริงที่คุณเก็บไว้
+//        } else {
+//            showFailScreen = true
+//        }
+//    }
     func checkAnswer() {
         if userInput == game.targetNumbers {
             game.currentLevel += 1
@@ -188,31 +205,33 @@ class GameViewModel: ObservableObject {
                 maxLevel = game.currentLevel
             }
             showSuccessScreen = true
-            // Save the new level to Firestore
-            updateLevelInDatabase(playerName: "PlayerName", newLevel: game.currentLevel)
+
+            // ✅ ดึง userID จาก UserDefaults
+            let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
+            updateLevelInDatabase(userID: userID, newLevel: game.currentLevel)
+
         } else {
             showFailScreen = true
         }
     }
+
+
 
     func stopTimer() {
         timer?.invalidate()
         isCounting = false
     }
 
-    func updateLevelInDatabase(playerName: String, newLevel: Int) {
-        // เชื่อมต่อ Firestore
-        let userRef = Firestore.firestore().collection("users").document(playerName)
+    func updateLevelInDatabase(userID: String, newLevel: Int) {
+        let userRef = Firestore.firestore().collection("users").document(userID)
 
-        // ตรวจสอบว่ามีข้อมูลอยู่หรือไม่
         userRef.getDocument { (document, error) in
             if let document = document, document.exists {
-                // ถ้ามีข้อมูล, อัปเดตระดับ
                 userRef.updateData(["level": newLevel]) { error in
                     if let error = error {
                         print("Error updating level: \(error.localizedDescription)")
                     } else {
-                        print("Level successfully updated for \(playerName)")
+                        print("Level successfully updated for \(userID)")
                     }
                 }
             } else {
@@ -220,5 +239,7 @@ class GameViewModel: ObservableObject {
             }
         }
     }
+
+
 
 }

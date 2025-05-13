@@ -65,13 +65,15 @@ struct SuccessView: View {
                         .foregroundColor(.gray)
                 }
             }
+            @AppStorage("userID") var userID: String = ""
 
             Button("Next") {
-                rankingViewModel.updateLevel(playerName: "playerName", newLevel: viewModel.game.currentLevel) // บันทึกระดับ
+                rankingViewModel.updateLevel(userID: userID, newLevel: viewModel.game.currentLevel)
                 viewModel.showSuccessScreen = false
                 viewModel.startNewLevel()
                 onNext()
             }
+
 
             Button("Home", action: onHome)
         }
