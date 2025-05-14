@@ -66,16 +66,16 @@ struct MainView: View {
                     .navigationBarBackButtonHidden(true)
                 }
             }
-            .alert("Change language in iPhone settings", isPresented: $showSettingsAlert) {
-                Button("Open Settings") {
+            .alert(NSLocalizedString("change_language_title", comment: ""), isPresented: $showSettingsAlert) {
+                Button(NSLocalizedString("open_settings", comment: "")) {
                     if let url = URL(string: UIApplication.openSettingsURLString),
                        UIApplication.shared.canOpenURL(url) {
                         UIApplication.shared.open(url)
                     }
                 }
-                Button("Cancel", role: .cancel) {}
+                Button(NSLocalizedString("cancel", comment: ""), role: .cancel) {}
             } message: {
-                Text("To change the language, go to iPhone Settings > number recall > Language.")
+                Text(NSLocalizedString("change_language_message", comment: ""))
             }
         }
     }

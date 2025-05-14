@@ -20,3 +20,8 @@
 "name" = "ชื่อ";
 "age" = "อายุ";
 "your profile" = "โปรไฟล์ของคุณ";
+"change_language_title" = "เปลี่ยนภาษาผ่านการตั้งค่า iPhone";
+"change_language_message" = "ไปที่ การตั้งค่า > number recall > ภาษา เพื่อเปลี่ยนภาษา";
+"open_settings" = "เปิดการตั้งค่า";
+"cancel" = "ยกเลิก";
+

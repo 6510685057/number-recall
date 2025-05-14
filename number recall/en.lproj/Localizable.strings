@@ -20,3 +20,8 @@
 "ok" = "save";
 "choose_icon" = "Choose Your Icon";
 "your profile" = "Your Profile";
+"change_language_title" = "Change language in iPhone settings";
+"change_language_message" = "To change the language, go to iPhone Settings > number recall > Language.";
+"open_settings" = "Open Settings";
+"cancel" = "Cancel";
+
