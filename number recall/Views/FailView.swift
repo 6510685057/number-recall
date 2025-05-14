@@ -8,7 +8,7 @@ struct FailView: View {
     
     var body: some View {
         VStack {
-            Text("SORRY, YOU LOSE")
+            Text(NSLocalizedString("sorry_you_lose", comment: ""))
                 .font(.title)
                 .bold()
             

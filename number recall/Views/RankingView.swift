@@ -9,7 +9,7 @@ struct RankingView: View {
     
     var body: some View {
         VStack {
-            Text("Leaderboard")
+            Text(NSLocalizedString("leaderboard", comment: ""))
                 .font(.system(size: 36, weight: .bold))
                 .foregroundColor(.white)
                 .padding(.top, 20)

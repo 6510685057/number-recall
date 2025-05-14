@@ -75,7 +75,7 @@ struct MainView: View {
                 }
                 Button("Cancel", role: .cancel) {}
             } message: {
-                Text("To change the language, go to iPhone Settings > [Your App] > Language.")
+                Text("To change the language, go to iPhone Settings > number recall > Language.")
             }
         }
     }

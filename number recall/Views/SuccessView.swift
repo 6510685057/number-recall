@@ -10,19 +10,19 @@ struct SuccessView: View {
     
     var body: some View {
         VStack {
-            Text("YOU DID IT!")
+            Text(NSLocalizedString("you_did_it", comment: ""))
                 .font(.largeTitle)
                 .bold()
             
             @AppStorage("userID") var userID: String = ""
             
-            Button("Next") {
+            Button(NSLocalizedString("next", comment: "")) {
                 viewModel.updateLevelInDatabase(userID: userID, newLevel: viewModel.game.currentLevel)
                 viewModel.showSuccessScreen = false
                 viewModel.startNewLevel()
                 onNext()
             }
-            
+
             
             Button(action: {
                 dismiss()

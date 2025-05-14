@@ -87,10 +87,10 @@ struct LoginView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("NAME")
+                    Text(NSLocalizedString("name", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
-                    TextField("Enter your name", text: $name)
+                    TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(height: 40)
                         .padding(.trailing)
@@ -98,11 +98,11 @@ struct LoginView: View {
                 .padding(.horizontal, 40)
                 
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("AGE")
+                    Text(NSLocalizedString("age", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
-                    TextField("Enter your age", text: $age)
-                        .keyboardType(.numberPad)
+                    TextField(NSLocalizedString("enter_age", comment: ""), text: $age)
+                        .keyboardType(.asciiCapableNumberPad) 
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .frame(height: 40)
                         .padding(.trailing)
@@ -115,7 +115,7 @@ struct LoginView: View {
                     viewModel.saveUser(id: userID, name: name, age: age, icon: icons[selectedIconIndex ?? 0])
                     isActive = true
                 }) {
-                    Text("OK")
+                    Text(NSLocalizedString("ok", comment: ""))
                         .font(.title3)
                         .padding(.horizontal, 50)
                         .padding(.vertical, 10)

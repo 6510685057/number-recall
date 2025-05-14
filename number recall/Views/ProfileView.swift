@@ -23,7 +23,7 @@ struct ProfileView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Your Profile")
+            Text(NSLocalizedString("your profile", comment: ""))
                 .font(.largeTitle)
                 .padding(.top, 30)
             
@@ -37,11 +37,13 @@ struct ProfileView: View {
                 .clipShape(Circle())
             
             // ชื่อผู้เล่น
-            TextField("Enter your name", text: $name)
+            TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
             
-            Text("Choose Your Icon").font(.headline)
+            Text(NSLocalizedString("choose_icon", comment: ""))
+                .font(.headline)
+
             
             
             LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
@@ -60,8 +62,7 @@ struct ProfileView: View {
             }
             .padding()
             
-            
-            Button("Save") {
+            Button(NSLocalizedString("ok", comment: "")){
                 viewModel.updateUserProfile(id: userID, name: name, icon: selectedIcon)
                 presentationMode.wrappedValue.dismiss()
             }

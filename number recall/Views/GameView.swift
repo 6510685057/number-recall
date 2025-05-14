@@ -26,13 +26,13 @@ struct GameView: View {
                 
                 Spacer()
                 
-                Text("Level \(viewModel.game.currentLevel)")
+                Text(String(format: NSLocalizedString("level", comment: ""), viewModel.game.currentLevel))
                     .font(.headline)
                     .foregroundColor(.black)
                 
                 Spacer()
                 
-                Text("Max: \(viewModel.maxLevel)")
+                Text(String(format: NSLocalizedString("max_level", comment: ""), viewModel.maxLevel))
                     .font(.subheadline)
                     .foregroundColor(.gray)
                     .padding(.trailing, 20)
@@ -41,7 +41,7 @@ struct GameView: View {
             .background(Color.yellow.opacity(0.3))
             .frame(maxHeight: .infinity, alignment: .top)
             
-            Text("Time: \(viewModel.timerValue)")
+            Text(String(format: NSLocalizedString("time", comment: ""), viewModel.timerValue))
                 .font(.system(size: 40, weight: .bold))
                 .foregroundColor(viewModel.timerValue > 3 ? .black : .red)
             
