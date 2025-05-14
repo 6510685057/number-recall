@@ -3,6 +3,7 @@ import SwiftUI
 struct MainView: View {
     @AppStorage("userID") var userID: String = ""
     @State private var startGame = false
+    @State private var showSettingsAlert = false
 
     var body: some View {
         NavigationStack {
@@ -66,7 +67,9 @@ struct MainView: View {
                     Spacer()
 
                     HStack(spacing: 30) {
-                        NavigationLink(destination: SettingView()) {
+                        Button(action:{
+                            showSettingsAlert = true
+                        }) {
                             Image(systemName: "gearshape.fill").iconStyle()
                         }
                         
@@ -82,6 +85,19 @@ struct MainView: View {
                     .navigationBarBackButtonHidden(true)
                 }
             }
+
+            .alert(NSLocalizedString("change_language_title", comment: ""), isPresented: $showSettingsAlert) {
+                Button(NSLocalizedString("open_settings", comment: "")) {
+                    if let url = URL(string: UIApplication.openSettingsURLString),
+                       UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button(NSLocalizedString("cancel", comment: ""), role: .cancel) {}
+            } message: {
+                Text(NSLocalizedString("change_language_message", comment: ""))
+            }
+
         }
     }
 }

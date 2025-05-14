@@ -4,12 +4,24 @@
 "return_to_game" = "Return to Game";
 "go_to_settings" = "Go to iPhone Settings";
 "change_language" = "Change Language";
-"level" = "Level";
-"max_level" = "Max";
-"time" = "Time";
+"level" = "Level %d";
+"max_level" = "Max %d";
+"time" = "Time: %d";
 "you_did_it" = "YOU DID IT!";
 "sorry_you_lose" = "SORRY, YOU LOSE!";
 "retry" = "Retry";
 "next" = "Next";
 "home" = "Home";
 "leaderboard" = "Leaderboard";
+"name" = "Name";
+"age" = "Age";
+"enter_name" = "Enter your name";
+"enter_age" = "Enter your age";
+"ok" = "save";
+"choose_icon" = "Choose Your Icon";
+"your profile" = "Your Profile";
+"change_language_title" = "Change language in iPhone settings";
+"change_language_message" = "To change the language, go to iPhone Settings > number recall > Language.";
+"open_settings" = "Open Settings";
+"cancel" = "Cancel";
+

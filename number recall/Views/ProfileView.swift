@@ -32,7 +32,7 @@ struct ProfileView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 25) {
-                Text("Your Profile")
+                Text(NSLocalizedString("your profile", comment: ""))
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.black)
                     .padding(.top, 30)
@@ -47,61 +47,57 @@ struct ProfileView: View {
                     Image(systemName: selectedIcon.isEmpty ? "person.crop.circle.fill" : selectedIcon)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 60, height: 60)
+                        .frame(width: 80, height: 80)
                         .foregroundColor(.white)
                 }
-                .padding(.bottom, 10)
-                .transition(.scale)
 
+                VStack(spacing: 20) {
 
-                // 💬 ช่องกรอกชื่อ
-                TextField("Enter your name", text: $name)
+                    // ชื่อผู้เล่น
+                    TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+
+                    Text(NSLocalizedString("choose_icon", comment: ""))
+                        .font(.headline)
+
+                    // 🧩 Grid เลือก icon
+                    LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], spacing: 20) {
+                        ForEach(icons, id: \.self) { icon in
+                            Image(systemName: icon)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 40, height: 40)
+                                .padding()
+                                .background(backgroundColor(for: icon))
+                                .cornerRadius(12)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(icon == selectedIcon ? Color.black : Color.clear, lineWidth: 2)
+                                )
+                                .onTapGesture {
+                                    selectedIcon = icon
+                                }
+                        }
+                    }
+                    .padding(.horizontal)
+
+                    // 💾 ปุ่ม Save
+                    Button(NSLocalizedString("ok", comment: "")) {
+                        viewModel.updateUserProfile(id: userID, name: name, icon: selectedIcon)
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.white.opacity(0.8))
-                    .cornerRadius(12)
+                    .background(Color.green.opacity(0.8))
+                    .foregroundColor(.white)
+                    .cornerRadius(14)
                     .padding(.horizontal, 30)
 
-                Text("Choose Your Icon")
-                    .font(.headline)
-                    .foregroundColor(.gray)
-
-                // 🧩 Grid เลือก icon
-                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], spacing: 20) {
-                    ForEach(icons, id: \.self) { icon in
-                        Image(systemName: icon)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
-                            .padding()
-                            .background(backgroundColor(for: icon))
-                            .cornerRadius(12)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(icon == selectedIcon ? Color.black : Color.clear, lineWidth: 2)
-                            )
-                            .onTapGesture {
-                                selectedIcon = icon
-                            }
-                    }
+                    Spacer()
                 }
-                .padding(.horizontal)
-
-                // 💾 ปุ่ม Save
-                Button(action: {
-                    viewModel.updateUserProfile(id: userID, name: name, icon: selectedIcon)
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Text("Save")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.green.opacity(0.8))
-                        .foregroundColor(.white)
-                        .cornerRadius(14)
-                }
-                .padding(.horizontal, 30)
-
-                Spacer()
+                .padding()
             }
         }
         .onAppear {
@@ -116,5 +112,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(userID: "previewUserID", viewModel: LoginViewModel())
+    ProfileView()
 }

@@ -8,17 +8,18 @@ struct RankingView: View {
     }
     
     var body: some View {
+
         NavigationStack {
             VStack {
                 // Header
-                Text("LEADERBOARD")
+                Text(NSLocalizedString("leaderboard", comment: ""))
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.white)
                     .padding(.top, 50)
                     .frame(maxWidth: .infinity)
                     .background(LinearGradient(gradient: Gradient(colors: [.pink.opacity(0.6), .pink.opacity(0.6)]), startPoint: .top, endPoint: .bottom))
                     .cornerRadius(12)
-
+                
                 // List of players with their rankings
                 ScrollView {
                     VStack(spacing: 10) {
@@ -33,9 +34,9 @@ struct RankingView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 20) // เพิ่ม padding ให้เนื้อหาห่างจากกรอบหัวข้อ
                 }
-
+                
                 Spacer()
-
+                
                 // NavigationLink for Home Button
                 HStack {
                     Spacer()
@@ -51,10 +52,8 @@ struct RankingView: View {
                     Spacer()
                 }
                 .padding(.bottom, 30)
+                
             }
-            .background(LinearGradient(gradient: Gradient(colors: [.mint.opacity(0.3), .pink.opacity(0.3)]), startPoint: .top, endPoint: .bottom))
-            .edgesIgnoringSafeArea(.all)
-            .navigationBarBackButtonHidden(true) // ซ่อนปุ่มกลับของระบบ
         }
     }
 }

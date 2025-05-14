@@ -99,28 +99,33 @@ struct LoginView: View {
                 
                 // กรอกชื่อ
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("NAME")
+                    Text(NSLocalizedString("name", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
-                    TextField("Enter your name", text: $name)
+
+                    TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
                         .padding()
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+
                 }
                 .padding(.horizontal, 40)
                 
                 // กรอกอายุ
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("AGE")
+                    Text(NSLocalizedString("age", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
-                    TextField("Enter your age", text: $age)
+
+                    TextField(NSLocalizedString("enter_age", comment: ""), text: $age)
                         .keyboardType(.numberPad)
                         .padding()
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+
+
                 }
                 .padding(.horizontal, 40)
                 
@@ -130,7 +135,7 @@ struct LoginView: View {
                     viewModel.saveUser(id: userID, name: name, age: age, icon: icons[selectedIconIndex ?? 0])
                     isActive = true
                 }) {
-                    Text("OK")
+                    Text(NSLocalizedString("ok", comment: ""))
                         .font(.title3)
                         .padding(.horizontal, 50)
                         .padding(.vertical, 12)
