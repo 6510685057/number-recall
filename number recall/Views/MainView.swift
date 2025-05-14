@@ -3,7 +3,7 @@ import SwiftUI
 struct MainView: View {
     @AppStorage("userID") var userID: String = ""
     @State private var startGame = false
-    
+    @State private var showSettingsAlert = false
     
     var body: some View {
         
@@ -20,7 +20,7 @@ struct MainView: View {
                         .foregroundColor(.black)
                     
                     // ปุ่ม START GAME
-                    Button("START GAME") {
+                    Button(NSLocalizedString("start_game", comment: "")) {
                         startGame = true
                     }
                     .font(.title2)
@@ -47,9 +47,12 @@ struct MainView: View {
                     
                     
                     HStack(spacing: 30) {
-                        NavigationLink(destination: SettingView()) {
+                        Button(action: {
+                            showSettingsAlert = true
+                        }) {
                             Image(systemName: "gearshape.fill").iconStyle()
                         }
+
                         
                         NavigationLink(destination: RankingView(rankingViewModel: RankingViewModel())) {
                             Image(systemName: "flag.pattern.checkered.2.crossed").iconStyle()
@@ -62,6 +65,17 @@ struct MainView: View {
                     .padding(.bottom, 40)
                     .navigationBarBackButtonHidden(true)
                 }
+            }
+            .alert("Change language in iPhone settings", isPresented: $showSettingsAlert) {
+                Button("Open Settings") {
+                    if let url = URL(string: UIApplication.openSettingsURLString),
+                       UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url)
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("To change the language, go to iPhone Settings > [Your App] > Language.")
             }
         }
     }

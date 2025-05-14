@@ -1,0 +1,16 @@
+"start_game" = "เริ่มเกม";
+"setting" = "การตั้งค่า";
+"choose_language" = "เลือกภาษา";
+"return_to_game" = "กลับสู่เกม";
+"go_to_settings" = "ไปที่การตั้งค่า iPhone";
+"change_language" = "เปลี่ยนภาษา";
+"level" = "ระดับ";
+"max_level" = "สูงสุด";
+"time" = "เวลา";
+"you_did_it" = "คุณทำสำเร็จแล้ว!";
+"sorry_you_lose" = "เสียใจด้วย! คุณแพ้!";
+"retry" = "เริ่มใหม่";
+"next" = "ถัดไป";
+"home" = "หน้าแรก";
+"leaderboard" = "กระดานคะแนน";
+
