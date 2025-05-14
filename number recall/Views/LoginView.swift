@@ -119,7 +119,7 @@ struct LoginView: View {
                         .foregroundColor(.black)
 
                     TextField(NSLocalizedString("enter_age", comment: ""), text: $age)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.asciiCapableNumberPad) 
                         .padding()
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(12)
