@@ -10,8 +10,6 @@ struct LoginView: View {
     @State private var selectedIconColor: Color = .clear
     @State private var isActive: Bool = false
     @AppStorage("userID") var userID: String = ""
-    @State private var selectedIcon: String = ""
-    
     
     let icons = [
         "star.fill", "flame.fill", "dog.fill",
@@ -31,10 +29,19 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            Color(red: 255/255, green: 218/255, blue: 104/255)
-                .edgesIgnoringSafeArea(.all)
+            // 🌈 พื้นหลังไล่สีพาสเทล
+            LinearGradient(
+                gradient: Gradient(colors: [
+                    Color(red: 180/255, green: 230/255, blue: 255/255),
+                    Color(red: 255/255, green: 250/255, blue: 200/255)
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
             
             VStack(spacing: 25) {
+                // ปุ่มกลับบ้าน
                 HStack {
                     NavigationLink(destination: MainView()) {
                         Image(systemName: "house.fill")
@@ -53,7 +60,7 @@ struct LoginView: View {
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.black)
                 
-                // การเลือกไอคอน
+                // 🧸 ไอคอนให้เลือก
                 VStack(spacing: 12) {
                     HStack(spacing: 20) {
                         ForEach(0..<3, id: \.self) { index in
@@ -66,50 +73,63 @@ struct LoginView: View {
                         }
                     }
                 }
-                .padding(.top, 30)
+                .padding(.top, 20)
                 
+                // ไอคอนที่เลือก
                 VStack {
                     if let index = selectedIconIndex {
-                        Image(systemName: icons[index])
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 60, height: 60)
-                            .foregroundColor(.black)
-                            .padding()
-                            .background(selectedIconColor)
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .frame(width: 100, height: 100)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(iconColors[index].opacity(0.6))
+                                .frame(width: 100, height: 100)
+                                .shadow(color: .white.opacity(0.4), radius: 4, x: 0, y: 2)
+                            
+                            Image(systemName: icons[index])
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 60, height: 60)
+                                // ❌ ไม่กำหนด .foregroundColor ให้ไอคอนใช้สี default
+                        }
                     } else {
-                        RoundedRectangle(cornerRadius: 8)
+                        RoundedRectangle(cornerRadius: 16)
                             .fill(Color.black.opacity(0.2))
                             .frame(width: 100, height: 100)
                     }
                 }
                 
+                // กรอกชื่อ
                 VStack(alignment: .leading, spacing: 10) {
                     Text(NSLocalizedString("name", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
+
                     TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 40)
-                        .padding(.trailing)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+
                 }
                 .padding(.horizontal, 40)
                 
+                // กรอกอายุ
                 VStack(alignment: .leading, spacing: 10) {
                     Text(NSLocalizedString("age", comment: ""))
                         .font(.system(size: 18))
                         .foregroundColor(.black)
+
                     TextField(NSLocalizedString("enter_age", comment: ""), text: $age)
-                        .keyboardType(.asciiCapableNumberPad) 
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .frame(height: 40)
-                        .padding(.trailing)
+                        .keyboardType(.numberPad)
+                        .padding()
+                        .background(Color.white.opacity(0.8))
+                        .cornerRadius(12)
+                        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+
+
                 }
                 .padding(.horizontal, 40)
                 
-                
+                // ปุ่ม OK
                 Button(action: {
                     userID = name
                     viewModel.saveUser(id: userID, name: name, age: age, icon: icons[selectedIconIndex ?? 0])
@@ -118,20 +138,18 @@ struct LoginView: View {
                     Text(NSLocalizedString("ok", comment: ""))
                         .font(.title3)
                         .padding(.horizontal, 50)
-                        .padding(.vertical, 10)
-                        .background(Color(red: 255/255, green: 177/255, blue: 239/255))
+                        .padding(.vertical, 12)
+                        .background(Color.pink.opacity(0.6))
                         .foregroundColor(.black)
-                        .cornerRadius(10)
-                        .shadow(radius: 2)
+                        .cornerRadius(14)
+                        .shadow(color: .pink.opacity(0.3), radius: 5, x: 0, y: 2)
                 }
-                
-                NavigationLink(destination: GameView(), isActive: $isActive) {
-                    EmptyView()
+                .navigationDestination(isPresented: $isActive) {
+                    GameView()
                 }
                 
                 Spacer()
             }
-            
             .onAppear {
                 if !userID.isEmpty {
                     viewModel.fetchUserLevel(id: userID) { level in
@@ -142,23 +160,23 @@ struct LoginView: View {
                     }
                 }
             }
-            
         }
-        
     }
     
+    // ฟังก์ชันสร้างปุ่มเลือกไอคอน
     func iconButton(index: Int) -> some View {
         Image(systemName: icons[index])
             .resizable()
             .scaledToFit()
-            .frame(width: 55, height: 55)
-            .padding()
-            .background(iconColors[index])
-            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(width: 50, height: 50)
+            .padding(14)
+            .background(iconColors[index].opacity(0.6))
+            .clipShape(RoundedRectangle(cornerRadius: 16))
             .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(selectedIconIndex == index ? Color.black : Color.clear, lineWidth: 3)
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(selectedIconIndex == index ? Color.black.opacity(0.6) : Color.clear, lineWidth: 2)
             )
+            .shadow(color: .white.opacity(0.3), radius: 3, x: 0, y: 2)
             .onTapGesture {
                 selectedIconIndex = index
                 selectedIconColor = iconColors[index]
