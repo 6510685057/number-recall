@@ -11,8 +11,6 @@ class GameViewModel: ObservableObject {
     @Published var showSuccessScreen: Bool = false
     @Published var showFailScreen: Bool = false
     
-    
-    
     var timer: Timer?
     
     init(targetNumbers: [Int] = [],
@@ -25,16 +23,46 @@ class GameViewModel: ObservableObject {
         self.maxLevel = maxLevel
         self.userInput = []
         
-        // ปิดการทำงานของ Timer ใน Preview
         if !forPreview {
             startNewLevel()
         }
     }
     
+    // 📈 กำหนดระดับความยากตามด่าน
+    func getLevelConfiguration(for level: Int) -> (count: Int, time: Int, maxDigit: Int) {
+        switch level {
+        case 1:
+            return (3, 6, 5)
+        case 2:
+            return (3, 5, 7)
+        case 3:
+            return (4, 5, 9)
+        case 4:
+            return (4, 4, 9)
+        case 5:
+            return (5, 5, 9)
+        case 6:
+            return (5, 4, 9)
+        case 7:
+            return (6, 5, 9)
+        case 8:
+            return (6, 4, 9)
+        case 9:
+            return (6, 3, 9)
+        case 10:
+            return (7, 4, 9)
+        default:
+            return (7, 3, 9)
+        }
+    }
+    
     func startNewLevel() {
-        game.targetNumbers = (0..<4).map { _ in Int.random(in: 0...9) }
+        let config = getLevelConfiguration(for: game.currentLevel)
+        game.timeLimit = config.time
+        timerValue = config.time
+
+        game.targetNumbers = (0..<config.count).map { _ in Int.random(in: 0...config.maxDigit) }
         userInput = []
-        timerValue = game.timeLimit
         isCounting = true
         showCards = true
         
@@ -67,8 +95,6 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    
-    
     func checkAnswer() {
         if userInput == game.targetNumbers {
             game.currentLevel += 1
@@ -77,18 +103,11 @@ class GameViewModel: ObservableObject {
                 let userID = UserDefaults.standard.string(forKey: "userID") ?? ""
                 updateLevelInDatabase(userID: userID, newLevel: maxLevel)
             }
-            
-            
             showSuccessScreen = true
-            
-            
-            
         } else {
             showFailScreen = true
         }
     }
-    
-    
     
     func stopTimer() {
         timer?.invalidate()
@@ -119,7 +138,6 @@ class GameViewModel: ObservableObject {
         }
     }
     
-    
     func restartFromLevelOne() {
         game.currentLevel = 1
         startNewLevel()
@@ -140,7 +158,4 @@ class GameViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
 }

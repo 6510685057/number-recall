@@ -1,5 +1,3 @@
-
-
 import SwiftUI
 
 struct FailView: View {
@@ -86,7 +84,9 @@ struct FailView: View {
                         }
                         
                         // ปุ่ม Home ใช้ NavigationLink
-                        NavigationLink(destination: MainView()) {
+                        Button(action: {
+                            onHome()
+                        }) {
                             Image(systemName: "house.fill") // ไอคอนโฮม
                                 .font(.title)
                                 .foregroundColor(.white)
@@ -95,6 +95,7 @@ struct FailView: View {
                                 .clipShape(Circle())
                                 .shadow(radius: 5)
                         }
+
                     }
                     .padding(20)
                 }

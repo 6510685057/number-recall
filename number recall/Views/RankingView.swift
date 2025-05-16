@@ -3,36 +3,42 @@ import SwiftUI
 struct RankingView: View {
     @StateObject var rankingViewModel: RankingViewModel
     
+   
+    
     init(rankingViewModel: RankingViewModel) {
         _rankingViewModel = StateObject(wrappedValue: rankingViewModel)
     }
     
     var body: some View {
-
         NavigationStack {
             VStack {
                 // Header
                 Text(NSLocalizedString("leaderboard", comment: ""))
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.white)
-                    .padding(.top, 50)
+                    .padding(20)
                     .frame(maxWidth: .infinity)
                     .background(LinearGradient(gradient: Gradient(colors: [.pink.opacity(0.6), .pink.opacity(0.6)]), startPoint: .top, endPoint: .bottom))
-                    .cornerRadius(12)
                 
                 // List of players with their rankings
                 ScrollView {
                     VStack(spacing: 10) {
                         let rankings = rankingViewModel.rankings
                         ForEach(rankings.prefix(10).indices, id: \.self) { index in
-                            RankingRow(player: rankings[index], rank: index + 1)
+                            let player = rankings[index]
+                            RankingRow(
+                                player: player,
+                                rank: index + 1,
+                                isCurrentUser: player.id == rankingViewModel.currentUserID  // เปรียบเทียบกับ uid ของ user ปัจจุบัน
+                            )
                         }
+
                     }
                     .onAppear {
                         rankingViewModel.fetchLeaderboard()
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 20) // เพิ่ม padding ให้เนื้อหาห่างจากกรอบหัวข้อ
+                    .padding(.top, 20)
                 }
                 
                 Spacer()
@@ -52,8 +58,8 @@ struct RankingView: View {
                     Spacer()
                 }
                 .padding(.bottom, 30)
-                
             }
+            .navigationBarBackButtonHidden(true)  // ซ่อนปุ่ม back
         }
     }
 }
@@ -61,48 +67,47 @@ struct RankingView: View {
 struct RankingRow: View {
     var player: Ranking
     var rank: Int
+    var isCurrentUser: Bool = false
     
     var body: some View {
         HStack {
-            // Rank Display
             Text("#\(rank)")
                 .font(.title2)
                 .fontWeight(.bold)
-                .foregroundColor(.white)
+                .foregroundColor(isCurrentUser ? .yellow : .white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(Color.white.opacity(0.3))
+                .background(isCurrentUser ? Color.blue.opacity(0.8) : Color.white.opacity(0.3))
                 .cornerRadius(10)
             
-            // Player's Name
             VStack(alignment: .leading) {
-                Text("\(player.name)")
+                Text(player.name)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(.white)
+                    .foregroundColor(isCurrentUser ? .yellow : .white)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
+            
             Spacer()
             
-            // Level Display
             Text("Level \(player.level)")
                 .font(.subheadline)
-                .foregroundColor(.white)
+                .foregroundColor(isCurrentUser ? .yellow : .white)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(Color.white.opacity(0.3))
+                .background(isCurrentUser ? Color.blue.opacity(0.8) : Color.white.opacity(0.3))
                 .cornerRadius(10)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color.pink.opacity(0.3))
+                .fill(isCurrentUser ? Color.blue.opacity(0.6) : Color.pink.opacity(0.3))
                 .shadow(radius: 10)
         )
         .padding(.vertical, 5)
         .scaleEffect(1.05)
-        .animation(.easeInOut(duration: 0.3), value: 1)
+        .animation(.easeInOut(duration: 0.3), value: isCurrentUser)
     }
 }
 
