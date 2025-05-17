@@ -9,7 +9,11 @@
     - หากตอบถูก → ผ่านไปยัง Level ถัดไป
     - หากตอบผิด → เข้าสู่หน้า Game Over และกดรีสตาร์ทเพื่อเริ่มที่ Level 1 ใหม่
 
+## proposal
+https://drive.google.com/file/d/1VWrJeUojtZE1hX8uPttOARLmM3Hi2ec-/view?usp=sharing
+
 ## Demo การเล่นเกม
+https://youtu.be/EcwCzDqwW7Y?feature=shared
 
 
 ## สมาชิก
@@ -17,7 +21,7 @@
 - 6510685057 นางสาวญาณัชทัฬห์ คงกระจ่าง
 
 ## หมายเหตุ
-- สามารถใช้แอปนี้บน iPhone ได้ทั้งภาษาไทยและอังกฤษ
+- สามารถใช้แอปนี้บน iPhone ได้ทั้งภาษาไทยและอังกฤษ รวมถึงการแสดงผลหน้าจอแบบ light mode และ dark mode
 - หากมีข้อมูลผู้เล่นในเครื่องแล้ว ไม่ต้องกรอกใหม่
 
 
