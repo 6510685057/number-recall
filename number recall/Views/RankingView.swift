@@ -2,13 +2,11 @@ import SwiftUI
 
 struct RankingView: View {
     @StateObject var rankingViewModel: RankingViewModel
-    
-   
-    
+
     init(rankingViewModel: RankingViewModel) {
         _rankingViewModel = StateObject(wrappedValue: rankingViewModel)
     }
-    
+
     var body: some View {
         NavigationStack {
             VStack {
@@ -18,9 +16,8 @@ struct RankingView: View {
                     .foregroundColor(.white)
                     .padding(20)
                     .frame(maxWidth: .infinity)
-                    .background(LinearGradient(gradient: Gradient(colors: [.pink.opacity(0.6), .pink.opacity(0.6)]), startPoint: .top, endPoint: .bottom))
-                
-                // List of players with their rankings
+                    .background(LinearGradient(gradient: Gradient(colors: [Color(red: 255/255, green: 160/255, blue: 190/255), Color(red: 255/255, green: 160/255, blue: 190/255)]), startPoint: .top, endPoint: .bottom))
+
                 ScrollView {
                     VStack(spacing: 10) {
                         let rankings = rankingViewModel.rankings
@@ -29,10 +26,9 @@ struct RankingView: View {
                             RankingRow(
                                 player: player,
                                 rank: index + 1,
-                                isCurrentUser: player.id == rankingViewModel.currentUserID  // เปรียบเทียบกับ uid ของ user ปัจจุบัน
+                                isCurrentUser: player.id == rankingViewModel.currentUserID
                             )
                         }
-
                     }
                     .onAppear {
                         rankingViewModel.fetchLeaderboard()
@@ -40,10 +36,10 @@ struct RankingView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 20)
                 }
-                
+
                 Spacer()
+
                 
-                // NavigationLink for Home Button
                 HStack {
                     Spacer()
                     NavigationLink(destination: MainView()) {
@@ -51,7 +47,7 @@ struct RankingView: View {
                             .foregroundColor(.white)
                             .font(.title)
                             .padding(15)
-                            .background(Color.pink.opacity(0.6))
+                            .background(Color(red: 255/255, green: 160/255, blue: 190/255))
                             .clipShape(Circle())
                             .shadow(radius: 10)
                     }
@@ -59,7 +55,7 @@ struct RankingView: View {
                 }
                 .padding(.bottom, 30)
             }
-            .navigationBarBackButtonHidden(true)  // ซ่อนปุ่ม back
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -68,41 +64,41 @@ struct RankingRow: View {
     var player: Ranking
     var rank: Int
     var isCurrentUser: Bool = false
-    
+
     var body: some View {
         HStack {
             Text("#\(rank)")
-                .font(.title2)
+                .font(.title3)
                 .fontWeight(.bold)
-                .foregroundColor(isCurrentUser ? .yellow : .white)
+                .foregroundColor(isCurrentUser ? Color.yellow : Color.black)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(isCurrentUser ? Color.blue.opacity(0.8) : Color.white.opacity(0.3))
+                .background(isCurrentUser ? Color(red: 50/255, green: 120/255, blue: 220/255) : Color(red: 240/255, green: 240/255, blue: 240/255))
                 .cornerRadius(10)
-            
+
             VStack(alignment: .leading) {
                 Text(player.name)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundColor(isCurrentUser ? .yellow : .white)
+                    .foregroundColor(isCurrentUser ? Color.yellow : Color.white)
                     .lineLimit(1)
                     .truncationMode(.tail)
             }
-            
+
             Spacer()
-            
+
             Text("Level \(player.level)")
                 .font(.subheadline)
-                .foregroundColor(isCurrentUser ? .yellow : .white)
+                .foregroundColor(isCurrentUser ? Color.yellow : Color.black)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 5)
-                .background(isCurrentUser ? Color.blue.opacity(0.8) : Color.white.opacity(0.3))
+                .background(isCurrentUser ? Color(red: 50/255, green: 120/255, blue: 220/255) : Color(red: 240/255, green: 240/255, blue: 240/255))
                 .cornerRadius(10)
         }
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(isCurrentUser ? Color.blue.opacity(0.6) : Color.pink.opacity(0.3))
+                .fill(isCurrentUser ? Color(red: 100/255, green: 150/255, blue: 230/255) : Color(red: 255/255, green: 160/255, blue: 190/255))
                 .shadow(radius: 10)
         )
         .padding(.vertical, 5)

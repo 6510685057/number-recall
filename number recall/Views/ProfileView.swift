@@ -1,5 +1,17 @@
 import SwiftUI
 
+struct FixedBackgroundTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(10)
+            .background(Color.white)
+            .foregroundColor(.black) 
+            .cornerRadius(8)
+            .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
+    }
+}
+
+
 struct ProfileView: View {
     @AppStorage("userID") var userID: String = ""
     @StateObject var viewModel = LoginViewModel()
@@ -15,12 +27,11 @@ struct ProfileView: View {
         if let index = icons.firstIndex(of: icon) {
             return iconColors[index].opacity(0.6)
         }
-        return .gray.opacity(0.3)
+        return Color.gray.opacity(0.3)
     }
 
     var body: some View {
         ZStack {
-            // 🌈 พื้นหลังไล่สีพาสเทล
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 180/255, green: 230/255, blue: 255/255),
@@ -34,34 +45,36 @@ struct ProfileView: View {
             VStack(spacing: 25) {
                 Text(NSLocalizedString("your profile", comment: ""))
                     .font(.system(size: 32, weight: .bold))
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.black)
                     .padding(.top, 30)
 
-                // 🧸 รูปโปรไฟล์
                 ZStack {
                     Circle()
                         .fill(backgroundColor(for: selectedIcon))
                         .frame(width: 120, height: 120)
-                        .shadow(color: .white.opacity(0.4), radius: 6, x: 0, y: 4)
+                        .shadow(color: Color.white.opacity(0.4), radius: 6, x: 0, y: 4)
 
                     Image(systemName: selectedIcon.isEmpty ? "person.crop.circle.fill" : selectedIcon)
                         .resizable()
                         .scaledToFit()
                         .frame(width: 80, height: 80)
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.white)
                 }
 
                 VStack(spacing: 20) {
 
-                    // ชื่อผู้เล่น
+                    
                     TextField(NSLocalizedString("enter_name", comment: ""), text: $name)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .textFieldStyle(FixedBackgroundTextFieldStyle())
                         .padding(.horizontal)
+
+                        
 
                     Text(NSLocalizedString("choose_icon", comment: ""))
                         .font(.headline)
+                        .foregroundColor(Color.black)
 
-                    // 🧩 Grid เลือก icon
+                    
                     LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], spacing: 20) {
                         ForEach(icons, id: \.self) { icon in
                             Image(systemName: icon)
@@ -71,6 +84,7 @@ struct ProfileView: View {
                                 .padding()
                                 .background(backgroundColor(for: icon))
                                 .cornerRadius(12)
+                                .foregroundColor(.white)
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(icon == selectedIcon ? Color.black : Color.clear, lineWidth: 2)
@@ -82,7 +96,7 @@ struct ProfileView: View {
                     }
                     .padding(.horizontal)
 
-                    // 💾 ปุ่ม Save
+                    
                     Button(NSLocalizedString("ok", comment: "")) {
                         viewModel.updateUserProfile(id: userID, name: name, icon: selectedIcon)
                         presentationMode.wrappedValue.dismiss()
@@ -91,7 +105,7 @@ struct ProfileView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(Color.green.opacity(0.8))
-                    .foregroundColor(.white)
+                    .foregroundColor(Color.white)
                     .cornerRadius(14)
                     .padding(.horizontal, 30)
 
@@ -108,6 +122,7 @@ struct ProfileView: View {
                 }
             }
         }
+        .preferredColorScheme(.light)  
     }
 }
 

@@ -29,7 +29,7 @@ struct LoginView: View {
     
     var body: some View {
         ZStack {
-            // 🌈 พื้นหลังไล่สีพาสเทล
+            
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 180/255, green: 230/255, blue: 255/255),
@@ -41,7 +41,7 @@ struct LoginView: View {
             .ignoresSafeArea()
             
             VStack(spacing: 25) {
-                // ปุ่มกลับบ้าน
+                
                 HStack {
                     NavigationLink(destination: MainView()) {
                         Image(systemName: "house.fill")
@@ -60,7 +60,7 @@ struct LoginView: View {
                     .font(.system(size: 36, weight: .bold))
                     .foregroundColor(.black)
                 
-                // 🧸 ไอคอนให้เลือก
+                
                 VStack(spacing: 12) {
                     HStack(spacing: 20) {
                         ForEach(0..<3, id: \.self) { index in
@@ -75,7 +75,6 @@ struct LoginView: View {
                 }
                 .padding(.top, 20)
                 
-                // ไอคอนที่เลือก
                 VStack {
                     if let index = selectedIconIndex {
                         ZStack {
@@ -88,7 +87,7 @@ struct LoginView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 60, height: 60)
-                                // ❌ ไม่กำหนด .foregroundColor ให้ไอคอนใช้สี default
+                            
                         }
                     } else {
                         RoundedRectangle(cornerRadius: 16)
@@ -97,7 +96,7 @@ struct LoginView: View {
                     }
                 }
                 
-                // กรอกชื่อ
+                
                 VStack(alignment: .leading, spacing: 10) {
                     Text(NSLocalizedString("name", comment: ""))
                         .font(.system(size: 18))
@@ -112,7 +111,7 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 40)
                 
-                // กรอกอายุ
+                
                 VStack(alignment: .leading, spacing: 10) {
                     Text(NSLocalizedString("age", comment: ""))
                         .font(.system(size: 18))
@@ -129,7 +128,7 @@ struct LoginView: View {
                 }
                 .padding(.horizontal, 40)
                 
-                // ปุ่ม OK
+                
                 Button(action: {
                     userID = name
                     viewModel.saveUser(id: userID, name: name, age: age, icon: icons[selectedIconIndex ?? 0])
@@ -163,7 +162,6 @@ struct LoginView: View {
         }
     }
     
-    // ฟังก์ชันสร้างปุ่มเลือกไอคอน
     func iconButton(index: Int) -> some View {
         Image(systemName: icons[index])
             .resizable()

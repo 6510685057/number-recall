@@ -6,7 +6,6 @@ struct GameView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.dismiss) private var dismissView
 
-
     var gridColumnCount: Int {
         if viewModel.game.targetNumbers.count >= 10 {
             return 5
@@ -48,24 +47,24 @@ struct GameView: View {
                         .padding(.trailing, 20)
                 }
                 .frame(maxWidth: .infinity)
-                .background(Color.yellow.opacity(0.3))
+                .background(Color(red: 255/255, green: 230/255, blue: 120/255))
                 .edgesIgnoringSafeArea(.horizontal)
 
-                // เวลาแสดงใต้แถบท็อปบาร์แบบชิดๆ
                 Text(String(format: NSLocalizedString("time", comment: ""), viewModel.timerValue))
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(viewModel.timerValue > 3 ? .black : .red)
                     .padding(.top, 2)
             }
-            .background(Color.yellow.opacity(0.3))
+            .background(Color(red: 255/255, green: 230/255, blue: 120/255))
+
             Spacer()
-            
+
             // การ์ดเลข
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 10), count: gridColumnCount), spacing: 12) {
                 ForEach(Array(viewModel.game.targetNumbers.enumerated()), id: \.offset) { _, num in
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.blue.opacity(0.2))
+                            .fill(Color(red: 200/255, green: 230/255, blue: 255/255))
                             .frame(height: 100)
 
                         if viewModel.showCards {
@@ -89,8 +88,9 @@ struct GameView: View {
                         .font(.largeTitle)
                         .frame(height: 70)
                         .frame(maxWidth: .infinity)
-                        .background(Color.pink.opacity(0.2))
+                        .background(Color(red: 255/255, green: 210/255, blue: 230/255))
                         .cornerRadius(12)
+                        .foregroundColor(.black)
                 }
             }
             .padding(.horizontal)
@@ -108,7 +108,7 @@ struct GameView: View {
                                 Text(item)
                                     .frame(width: 70, height: 70)
                                     .font(.title)
-                                    .background(Color(red: 255/255, green: 177/255, blue: 239/255))
+                                    .background(Color(red: 255/255, green: 177/255, blue: 239/255)) 
                                     .foregroundColor(.black)
                                     .cornerRadius(14)
                             }
@@ -133,7 +133,8 @@ struct GameView: View {
                     viewModel.startNewLevel()
                 },
                 onHome: {
-                    viewModel.startNewLevel()
+                    viewModel.showSuccessScreen = false
+                    dismissView()
                 },
                 rankingViewModel: rankingViewModel,
                 viewModel: viewModel
@@ -147,13 +148,12 @@ struct GameView: View {
                 },
                 onHome: {
                     viewModel.showFailScreen = false
-                    dismissView()  // ปิด GameView (sheet) กลับไปหน้าเมนหลัก
+                    dismissView()
                 },
                 viewModel: viewModel,
                 rankingViewModel: rankingViewModel
             )
         }
-
         .navigationBarBackButtonHidden(true)
     }
 }
@@ -165,4 +165,3 @@ struct GameView_Previews: PreviewProvider {
             .padding()
     }
 }
-

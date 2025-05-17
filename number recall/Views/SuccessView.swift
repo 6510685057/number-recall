@@ -5,12 +5,10 @@ struct SuccessView: View {
     var onHome: () -> Void
     @ObservedObject var rankingViewModel: RankingViewModel
     @ObservedObject var viewModel: GameViewModel
-    @Environment(\.dismiss) var dismiss
     @AppStorage("userID") var userID: String = ""
 
     var body: some View {
         ZStack {
-            // 🌈 พื้นหลังพาสเทล
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 230/255, green: 210/255, blue: 255/255),
@@ -31,10 +29,9 @@ struct SuccessView: View {
                     .shadow(color: Color.purple.opacity(0.4), radius: 10, x: 0, y: 5)
                     .padding(.horizontal, 20)
                 
-                // ปุ่ม Next และ Home
                 HStack(spacing: 40) {
                     Button(action: {
-                        dismiss()
+                        onHome()
                     }) {
                         HStack {
                             Image(systemName: "house.fill")
@@ -47,6 +44,7 @@ struct SuccessView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .shadow(color: Color.purple.opacity(0.5), radius: 6, x: 0, y: 4)
                     }
+
 
                     Button(NSLocalizedString("next", comment: "")) {
                         viewModel.updateLevelInDatabase(userID: userID, newLevel: viewModel.game.currentLevel)
