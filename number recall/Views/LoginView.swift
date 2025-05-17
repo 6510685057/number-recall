@@ -107,6 +107,7 @@ struct LoginView: View {
                         .background(Color.white.opacity(0.8))
                         .cornerRadius(12)
                         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.3), lineWidth: 1))
+                        .foregroundColor(.black)
 
                 }
                 .padding(.horizontal, 40)
